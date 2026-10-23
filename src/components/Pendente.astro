@@ -1,9 +1,0 @@
----
-/* Aviso de dado pendente. Só aparece no ambiente local (npm run dev), nunca no site publicado. */
-interface Props {
-  texto: string;
-}
-const { texto } = Astro.props;
----
-
-{import.meta.env.DEV && <p class="pendente">Pendente: {texto}</p>}

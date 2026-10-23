@@ -1,6 +1,4 @@
-node_modules/
-dist/
-.astro/
-.env
-.env.*
 materiais/
+.DS_Store
+Thumbs.db
+.vscode/

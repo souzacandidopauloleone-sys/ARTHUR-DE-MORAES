@@ -1,0 +1,1701 @@
+/* =========================================================
+   SITE OFICIAL — ATLETA DE KICKBOXING
+   Estilos de todas as páginas.
+   ========================================================= */
+
+/* Archivo variável (peso 100–900, largura 62–125%), hospedada no próprio site */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('fonts/archivo-latin-var.woff2') format('woff2');
+}
+
+:root {
+  /* Cores */
+  --preto: #0b0b0d;
+  --grafite: #17171b;
+  --branco: #ffffff;
+  --texto: #e9e7e2;
+  --cinza: #9a9893;
+  --linha: rgb(255 255 255 / 0.12);
+  --dourado: #d4af37; /* reservado a conquistas e à ação principal */
+
+  /* Tipografia: escala 14 · 16 · 18 · 21 · 24 · 36 · 48 · 60 · 72 */
+  --fonte: 'Archivo', system-ui, sans-serif;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.3125rem;
+  --t-lg: 1.5rem;
+  --t-xl: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --t-2xl: clamp(2.75rem, 1.6rem + 5vw, 4.5rem);
+
+  /* Espaço e layout */
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --secao: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --largura: 76rem;
+  --medida: 38rem;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--preto);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: var(--t-base);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--branco);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: var(--medida);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--branco);
+  text-decoration-color: rgb(255 255 255 / 0.35);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.2s;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--branco);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.pular {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--branco);
+  color: var(--preto);
+  font-weight: 700;
+}
+
+.pular:focus {
+  top: 1rem;
+}
+
+/* ---------- Layout ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--largura);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.secao {
+  padding-block: var(--secao);
+}
+
+.secao + .secao {
+  border-top: 1px solid var(--linha);
+}
+
+.cabecalho-secao {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+.cabecalho-pagina {
+  padding-top: clamp(8rem, 6rem + 6vw, 11rem);
+  padding-bottom: clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.cabecalho-pagina h1 {
+  font-size: clamp(3.25rem, 1.5rem + 8vw, 7.5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.cabecalho-pagina p {
+  margin-top: 1.25rem;
+  color: var(--cinza);
+  font-size: var(--t-md);
+  line-height: 1.5;
+}
+
+/* Títulos de seção: condensados e pesados, em caixa normal */
+.titulo {
+  font-size: var(--t-2xl);
+  font-weight: 850;
+  font-stretch: 70%;
+  letter-spacing: -0.01em;
+}
+
+.subtitulo {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 85%;
+}
+
+.texto-grande {
+  font-size: var(--t-md);
+  line-height: 1.55;
+}
+
+/* ---------- Botões ---------- */
+
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.8rem 1.4rem;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--branco);
+  font: inherit;
+  font-size: var(--t-base);
+  font-weight: 700;
+  font-stretch: 88%;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+
+.botao:hover {
+  border-color: var(--branco);
+  background: rgb(255 255 255 / 0.06);
+}
+
+.botao:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.botao--principal {
+  border-color: var(--dourado);
+  background: var(--dourado);
+  color: var(--preto);
+}
+
+.botao--principal:hover {
+  border-color: #e2c157;
+  background: #e2c157;
+}
+
+.botao--compacto {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.botao svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* ---------- Avisos de conteúdo pendente ----------
+   Só aparecem quando o site é aberto no computador (arquivo local ou localhost).
+   Publicado na internet, ficam invisíveis. */
+
+.pendente {
+  display: none;
+}
+
+.rascunho .pendente {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-block: 0.5rem 1.5rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px dashed rgb(255 255 255 / 0.35);
+  color: var(--cinza);
+  font-size: var(--t-sm);
+  line-height: 1.4;
+}
+
+/* Estado vazio visível ao público */
+.vazio {
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border: 1px dashed rgb(255 255 255 / 0.2);
+  color: var(--texto);
+  font-weight: 700;
+}
+
+.vazio p {
+  margin: 0;
+}
+
+/* ---------- Cordas do ringue (abertura e rodapé) ---------- */
+
+.cordas {
+  display: grid;
+  gap: 7px;
+}
+
+.cordas span {
+  display: block;
+  height: 1px;
+  background: rgb(255 255 255 / 0.22);
+}
+
+/* ---------- Cabeçalho ---------- */
+
+.cabecalho {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  background: linear-gradient(rgb(11 11 13 / 0.85), rgb(11 11 13 / 0));
+  transition: background-color 0.3s;
+}
+
+.cabecalho.solido {
+  background: rgb(11 11 13 / 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--linha);
+}
+
+/* Sem backdrop-filter aqui: ele prenderia o menu em tela cheia dentro da barra */
+.cabecalho.menu-aberto {
+  background: var(--preto);
+  backdrop-filter: none;
+  border-bottom: 1px solid var(--linha);
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.25rem;
+}
+
+.marca {
+  color: var(--branco);
+  font-size: 1.375rem;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav a {
+  position: relative;
+  display: block;
+  color: var(--texto);
+  font-weight: 600;
+  font-stretch: 88%;
+  text-decoration: none;
+}
+
+.nav a[aria-current='page'] {
+  color: var(--branco);
+}
+
+.abrir-menu {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.hamburguer,
+.hamburguer::before {
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  background: currentColor;
+  transition: transform 0.25s var(--ease);
+}
+
+.hamburguer {
+  position: relative;
+  transform: translateY(-3px);
+}
+
+.hamburguer::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+}
+
+.menu-aberto .hamburguer {
+  transform: translateY(0) rotate(45deg);
+}
+
+.menu-aberto .hamburguer::before {
+  transform: translateY(-6px) rotate(-90deg);
+}
+
+/* Celular: menu em tela cheia */
+@media (max-width: 59.99em) {
+  .nav {
+    position: fixed;
+    inset: 4.25rem 0 0;
+    display: none;
+    padding: 2rem var(--gutter);
+    background: var(--preto);
+    overflow-y: auto;
+  }
+
+  .menu-aberto .nav {
+    display: block;
+  }
+
+  .nav li + li {
+    border-top: 1px solid var(--linha);
+  }
+
+  .nav a {
+    padding-block: 1rem;
+    font-size: 2.25rem;
+    font-weight: 850;
+    font-stretch: 66%;
+  }
+
+  .nav a[aria-current='page'] {
+    text-decoration: underline 2px;
+    text-underline-offset: 0.18em;
+  }
+}
+
+/* Computador */
+@media (min-width: 60em) {
+  .abrir-menu {
+    display: none;
+  }
+
+  .nav ul {
+    display: flex;
+    gap: clamp(1.25rem, 2vw, 2.25rem);
+  }
+
+  .nav a {
+    padding-block: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.15rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease);
+  }
+
+  .nav a:hover::after,
+  .nav a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Rodapé ---------- */
+
+.rodape {
+  margin-top: var(--secao);
+  padding-bottom: 2rem;
+}
+
+.rodape-grade {
+  display: grid;
+  gap: 2.5rem;
+  padding-block: 3.5rem 2.5rem;
+}
+
+.rodape-nome {
+  margin: 0;
+  color: var(--branco);
+  font-size: 2.25rem;
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.rodape-modalidade {
+  margin: 0.4rem 0 1.5rem;
+  color: var(--cinza);
+}
+
+.rodape-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rodape-links a {
+  color: var(--texto);
+  text-decoration: none;
+}
+
+.rodape-links a:hover {
+  color: var(--branco);
+  text-decoration: underline;
+}
+
+.rodape-legal p {
+  max-width: none;
+  margin: 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--linha);
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+@media (min-width: 48em) {
+  .rodape-grade {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+  }
+
+  .rodape-links {
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+/* ---------- Abertura (página inicial) ---------- */
+
+.abertura {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  min-height: 100svh;
+  padding-block: 7rem clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.abertura-fundo {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Fundo da abertura: vídeo real de luta, escurecido para o nome ficar legível */
+.abertura-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  /* Realce de cor: mais claro, contraste e cor mais vivos */
+  filter: brightness(1.05) contrast(1.12) saturate(1.3);
+}
+
+/* Celular: enquadra o lado do tatame onde o Arthur luta */
+@media (max-width: 59.99em) {
+  .abertura-video {
+    object-position: 68% 45%;
+  }
+}
+
+/* Seção "Em ação": vídeo com controles */
+.video-luta {
+  margin: 0;
+}
+
+.video-luta video {
+  width: 100%;
+  aspect-ratio: 1018 / 576;
+  background: var(--grafite);
+}
+
+.video-luta figcaption {
+  display: block;
+  padding-top: 0.75rem;
+}
+
+/* Fundo: fotos reais em sequência. No celular aparecem nítidas atrás do texto;
+   no computador ficam desfocadas e escuras, só para dar cor e luz ao quadro. */
+.fundo-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 15%;
+  opacity: 0;
+  filter: brightness(0.7);
+  transition: opacity 1.6s var(--ease);
+}
+
+.fundo-slide.ativo {
+  opacity: 1;
+}
+
+@media (min-width: 60em) {
+  .fundo-slide {
+    inset: -6%;
+    width: 112%;
+    height: 112%;
+    filter: blur(32px) saturate(1.2) brightness(0.42);
+  }
+}
+
+/* Texto à esquerda, quadro de fotos à direita (computador) */
+.abertura-grade {
+  display: grid;
+  align-items: end;
+  gap: 3rem;
+}
+
+/* Quadro com as fotos nítidas: só no computador, onde há espaço para o tamanho real delas */
+.abertura-quadro {
+  display: none;
+}
+
+@media (min-width: 60em) {
+  .abertura-grade {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  }
+
+  .abertura-quadro {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: min(calc(100svh - 11.5rem), 54rem);
+    max-width: 44rem;
+    margin: 0 0 0 auto;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8);
+  }
+
+  .quadro-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease);
+  }
+
+  .quadro-slide.ativo {
+    opacity: 1;
+  }
+
+  /* Indicador de qual foto está na tela */
+  .quadro-progresso {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .quadro-progresso span {
+    position: relative;
+    height: 2px;
+    background: rgb(255 255 255 / 0.3);
+    overflow: hidden;
+  }
+
+  .quadro-progresso span::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--branco);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .quadro-progresso span.feito::after {
+    transform: scaleX(1);
+  }
+
+  .quadro-progresso span.atual::after {
+    animation: progresso var(--duracao-slide, 5.5s) linear forwards;
+  }
+}
+
+@keyframes progresso {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Luz lateral e profundidade: escurece a base e a esquerda para o nome respirar */
+.abertura-luz {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, var(--preto) 0%, rgb(11 11 13 / 0.55) 22%, rgb(11 11 13 / 0) 50%),
+    linear-gradient(to right, rgb(11 11 13 / 0.55) 0%, rgb(11 11 13 / 0.15) 40%, rgb(11 11 13 / 0) 60%),
+    radial-gradient(ellipse 60% 50% at 78% 22%, rgb(212 175 55 / 0.1), transparent 70%);
+}
+
+.abertura-conteudo {
+  display: grid;
+  justify-items: start;
+  min-width: 0;
+}
+
+.abertura-conteudo .cordas {
+  width: min(22rem, 70%);
+  margin-bottom: 1.5rem;
+}
+
+/* O nome: Archivo Black extracondensada, enorme, alinhado à esquerda.
+   Limitado também pela altura, para nomes longos caberem na primeira tela. */
+.abertura-nome {
+  max-width: 100%;
+  font-size: clamp(3rem, min(13.5vw, 19svh), 13rem);
+  text-shadow: 0 4px 40px rgb(0 0 0 / 0.5);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.94;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.abertura-categoria {
+  margin: 1.25rem 0 0;
+  color: var(--branco);
+  font-size: var(--t-md);
+  font-weight: 600;
+  font-stretch: 85%;
+}
+
+.abertura-texto {
+  max-width: 34rem;
+  margin: 0.75rem 0 0;
+  color: var(--texto);
+  font-size: var(--t-md);
+  line-height: 1.5;
+}
+
+.abertura-conteudo .botoes {
+  margin-top: 2rem;
+}
+
+@media (min-width: 60em) {
+  .abertura-nome {
+    font-size: clamp(3rem, min(7.6vw, 16svh), 9rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Aproximação lenta e contínua, sem "pulo" quando a foto troca */
+  .fundo-slide,
+  .quadro-slide {
+    animation: avancar 11s ease-in-out infinite alternate;
+  }
+
+  /* Entrada do quadro: abre de baixo para cima, depois um feixe de luz atravessa a foto */
+  .abertura-quadro {
+    animation: abrir-quadro 1.2s var(--ease) 0.35s both;
+  }
+
+  .abertura-quadro::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.22) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: feixe 1.6s var(--ease) 1.3s both;
+    pointer-events: none;
+  }
+
+  /* Entrada do nome: começa largo e se fecha até a forma condensada, como uma guarda */
+  .abertura-nome {
+    animation: guarda 1.3s var(--ease) 0.15s both;
+  }
+
+  .abertura-categoria,
+  .abertura-texto,
+  .abertura-conteudo .pendente,
+  .abertura-conteudo .botoes {
+    animation: surgir 0.9s var(--ease) both;
+  }
+
+  .abertura-categoria {
+    animation-delay: 0.95s;
+  }
+
+  .abertura-texto,
+  .abertura-conteudo .pendente {
+    animation-delay: 1.05s;
+  }
+
+  .abertura-conteudo .botoes {
+    animation-delay: 1.15s;
+  }
+
+  .abertura-conteudo .cordas span {
+    transform-origin: left;
+    animation: esticar 1.1s var(--ease) both;
+  }
+
+  .abertura-conteudo .cordas span:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+
+  .abertura-conteudo .cordas span:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+}
+
+@keyframes avancar {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes abrir-quadro {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes feixe {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes guarda {
+  from {
+    opacity: 0;
+    font-stretch: 125%;
+    letter-spacing: 0.06em;
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    font-stretch: 62%;
+    letter-spacing: -0.005em;
+  }
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes esticar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Página inicial: demais seções ---------- */
+
+.trajetoria {
+  display: grid;
+  gap: 2rem;
+}
+
+.trajetoria .texto-grande {
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 60em) {
+  .trajetoria {
+    grid-template-columns: 5fr 7fr;
+    align-items: start;
+  }
+}
+
+/* Conquistas em destaque: a colocação grande, como num placar */
+.destaques {
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.destaque {
+  display: grid;
+  gap: 0.25rem 2rem;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--linha);
+}
+
+.destaque-colocacao {
+  white-space: nowrap;
+  color: var(--branco);
+  font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.95;
+}
+
+.destaque-evento {
+  color: var(--branco);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 85%;
+  line-height: 1.2;
+}
+
+.destaque-meta {
+  color: var(--cinza);
+}
+
+@media (min-width: 48em) {
+  .destaque {
+    grid-template-columns: 14rem 1fr;
+    align-items: baseline;
+  }
+
+  .destaque-meta {
+    grid-column: 2;
+  }
+}
+
+/* Prévia da galeria: tamanhos desiguais, sem cartões */
+.mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.mosaico li:first-child {
+  grid-column: 1 / -1;
+}
+
+.mosaico img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.mosaico li:first-child img {
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 60em) {
+  .mosaico {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .mosaico li:first-child {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .mosaico li:first-child img {
+    aspect-ratio: auto;
+  }
+}
+
+.chamada {
+  background: var(--grafite);
+}
+
+.chamada .titulo {
+  max-width: 14ch;
+  margin-bottom: 1.5rem;
+}
+
+.chamada .texto-grande {
+  margin-bottom: 2rem;
+}
+
+/* ---------- O dourado marca o pódio ----------
+   ouro: barra cheia e texto dourado · prata e bronze: barra fina */
+
+.ouro .destaque-colocacao,
+.ouro .conquista-colocacao,
+.ouro .resultado-rotulo,
+.medalha-ouro dd,
+.numero-ouro {
+  color: var(--dourado);
+}
+
+/* ---------- Tabela de campeonatos (cartel) ---------- */
+
+/* Respiro à esquerda para o fio dourado não ser cortado pela rolagem */
+.tabela-rolagem {
+  overflow-x: auto;
+  overflow-y: hidden; /* a animação de entrada das linhas não pode criar barra vertical */
+  margin-left: -1rem;
+  padding-left: 1rem;
+}
+
+.cartel {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.cartel thead th {
+  padding: 0 1rem 0.75rem 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.35);
+  color: var(--cinza);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  text-align: left;
+}
+
+.cartel td,
+.cartel tbody th {
+  position: relative;
+  padding: 1.1rem 1rem 1.1rem 0;
+  border-bottom: 1px solid var(--linha);
+  text-align: left;
+  vertical-align: top;
+}
+
+.cartel .data {
+  color: var(--cinza);
+  white-space: nowrap;
+}
+
+.cartel .evento {
+  color: var(--branco);
+  font-size: var(--t-md);
+  font-weight: 700;
+  font-stretch: 85%;
+  line-height: 1.25;
+}
+
+.cartel .detalhe {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--cinza);
+  font-size: var(--t-sm);
+  font-weight: 400;
+  font-stretch: 100%;
+}
+
+.cartel .resultado {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cartel .participacao .resultado,
+.cartel .a-disputar .resultado {
+  color: var(--cinza);
+  font-weight: 500;
+}
+
+.cartel tr .data::before {
+  content: '';
+  position: absolute;
+  left: -0.9rem;
+  top: 1.1rem;
+  bottom: 1.1rem;
+  width: 0;
+  background: var(--dourado);
+}
+
+.cartel tr.ouro .data::before {
+  width: 4px;
+}
+
+.cartel tr.prata .data::before,
+.cartel tr.bronze .data::before {
+  width: 2px;
+  opacity: 0.6;
+}
+
+/* O fio dourado é "desenhado" quando a linha entra na tela */
+@media (prefers-reduced-motion: no-preference) {
+  .js .cartel tr[data-revelar] .data::before {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.7s var(--ease) 0.35s;
+  }
+
+  .js .cartel tr[data-revelar].visivel .data::before {
+    transform: scaleY(1);
+  }
+}
+
+/* Computador: colunas fixas, para tabelas diferentes ficarem alinhadas */
+@media (min-width: 48em) {
+  .cartel {
+    table-layout: fixed;
+    min-width: 44rem;
+  }
+
+  .cartel thead th:nth-child(1) {
+    width: 14%;
+  }
+
+  .cartel thead th:nth-child(2) {
+    width: 42%;
+  }
+
+  .cartel thead th:nth-child(3) {
+    width: 24%;
+  }
+
+  .cartel thead th:nth-child(4) {
+    width: 20%;
+  }
+}
+
+/* Celular: cada luta vira um bloco empilhado */
+@media (max-width: 47.99em) {
+  .tabela-rolagem {
+    overflow: visible;
+  }
+
+  .cartel,
+  .cartel tbody {
+    display: block;
+  }
+
+  .cartel thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .cartel tr {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem 1rem;
+    padding: 1.25rem 0 1.25rem 1rem;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .cartel td,
+  .cartel tbody th {
+    position: static;
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+
+  .cartel .evento {
+    grid-column: 1 / -1;
+    order: -1;
+  }
+
+  .cartel .categoria {
+    grid-column: 1 / -1;
+    order: 0;
+    color: var(--texto);
+  }
+
+  .cartel .categoria:empty {
+    display: none;
+  }
+
+  .cartel .data {
+    order: 1;
+  }
+
+  .cartel .resultado {
+    order: 2;
+    text-align: right;
+  }
+
+  .cartel tr .data::before {
+    left: 0;
+    top: 1.25rem;
+    bottom: 1.25rem;
+  }
+}
+
+.bloco-tabela {
+  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.bloco-tabela .subtitulo {
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Sobre ---------- */
+
+.bloco {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.bloco p {
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+
+/* Frase de fechamento do "Sobre" */
+.bloco .lema {
+  margin-top: 2rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--branco);
+  color: var(--branco);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 85%;
+  line-height: 1.3;
+}
+
+.bloco + .bloco {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--linha);
+}
+
+/* Rolagem suave até as seções (desligada para quem prefere menos movimento) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (min-width: 60em) {
+  .bloco {
+    grid-template-columns: 4fr 8fr;
+  }
+}
+
+.equipe {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.equipe dt {
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+.equipe dd {
+  margin: 0;
+  color: var(--branco);
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 85%;
+}
+
+/* Linha do tempo: um fio vertical com os anos */
+.linha {
+  margin: 0 0 2.5rem;
+  padding: 0 0 0 1.5rem;
+  list-style: none;
+  border-left: 1px solid rgb(255 255 255 / 0.25);
+}
+
+.linha li {
+  position: relative;
+  padding-bottom: 2.25rem;
+}
+
+.linha li::before {
+  content: '';
+  position: absolute;
+  left: calc(-1.5rem - 4px);
+  top: 0.7rem;
+  width: 7px;
+  height: 7px;
+  background: var(--branco);
+}
+
+.linha-ano {
+  display: block;
+  color: var(--branco);
+  font-size: var(--t-xl);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.linha p {
+  margin: 0.25rem 0 0;
+}
+
+.linha strong {
+  color: var(--dourado);
+}
+
+.linha-eventos {
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+/* ---------- Conquistas ---------- */
+
+.medalhas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 0 clamp(3rem, 2rem + 4vw, 6rem);
+  border-block: 1px solid var(--linha);
+}
+
+.medalha {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.25rem;
+  padding: 1.5rem 1rem 1.5rem 0;
+}
+
+.medalha + .medalha {
+  padding-left: 1rem;
+  border-left: 1px solid var(--linha);
+}
+
+.medalha dt {
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+.medalha dd {
+  margin: 0;
+  color: var(--branco);
+  font-size: clamp(3rem, 2rem + 5vw, 6rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.lista-conquistas {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.conquista {
+  display: grid;
+  gap: 1.5rem;
+  padding-block: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  border-top: 1px solid var(--linha);
+}
+
+.conquista-colocacao {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--branco);
+  font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.95;
+}
+
+.conquista-texto p {
+  margin: 0.5rem 0 0;
+}
+
+.conquista-quando {
+  color: var(--cinza);
+}
+
+.conquista img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+@media (min-width: 60em) {
+  .conquista {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  /* Alterna o lado da foto para dar ritmo à leitura */
+  .conquista:nth-child(even) .conquista-texto {
+    order: 2;
+  }
+}
+
+/* ---------- Esteira de fotos (seção "No tatame e no pódio") ----------
+   As fotos passam em linha, sem cortar, e param quando o mouse está em cima
+   (ou quando uma foto recebe foco pelo teclado). */
+
+.esteira {
+  --altura-foto: clamp(15rem, 10rem + 18vw, 26rem);
+  overflow: hidden;
+  /* Bordas esmaecidas: as fotos entram e saem suavemente */
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.esteira-faixa {
+  display: flex;
+  gap: 0.75rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* A legenda quebra linha na largura da foto, sem invadir a vizinha */
+.esteira-faixa figure {
+  width: min-content;
+  margin: 0;
+}
+
+.esteira-faixa .ampliar {
+  display: block;
+  height: var(--altura-foto);
+  padding: 0;
+  border: 0;
+  background: var(--grafite);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+.esteira-faixa .ampliar img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  transition: transform 0.6s var(--ease);
+}
+
+@media (hover: hover) {
+  .esteira-faixa .ampliar:hover img {
+    transform: scale(1.04);
+  }
+}
+
+.esteira-faixa figcaption {
+  padding-top: 0.75rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .esteira-faixa.girando {
+    animation: deslizar var(--duracao-esteira, 45s) linear infinite;
+  }
+
+  .esteira:hover .esteira-faixa,
+  .esteira:focus-within .esteira-faixa {
+    animation-play-state: paused;
+  }
+}
+
+/* Movimento reduzido: sem giro, a faixa rola com o dedo ou a barra */
+@media (prefers-reduced-motion: reduce) {
+  .esteira {
+    overflow-x: auto;
+    mask-image: none;
+  }
+}
+
+@keyframes deslizar {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Galeria ---------- */
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  grid-auto-flow: dense;
+  gap: 2.5rem 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40em) {
+  .galeria .destaque-galeria {
+    grid-column: span 2;
+  }
+}
+
+.galeria figure {
+  margin: 0;
+}
+
+.ampliar {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--grafite);
+  cursor: zoom-in;
+  overflow: hidden;
+}
+
+/* Retrato (4:5): a maioria das fotos de pódio é vertical. O enquadramento sobe para preservar rostos. */
+.ampliar img,
+.galeria video {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 20%;
+  transition: transform 0.6s var(--ease);
+}
+
+.destaque-galeria .ampliar img,
+.destaque-galeria video {
+  aspect-ratio: 16 / 9;
+}
+
+@media (hover: hover) {
+  .ampliar:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.galeria figcaption {
+  display: grid;
+  gap: 0.2rem;
+  padding-top: 0.75rem;
+}
+
+.legenda {
+  color: var(--branco);
+  font-weight: 600;
+}
+
+.legenda-meta {
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+.visor {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--gutter);
+  border: 0;
+  background: rgb(11 11 13 / 0.96);
+}
+
+.visor[open] {
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  grid-template-rows: 1fr auto;
+}
+
+.visor img {
+  max-width: 100%;
+  max-height: calc(100svh - 8rem);
+  object-fit: contain;
+}
+
+.visor::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+/* ---------- Patrocínio ---------- */
+
+.numeros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  margin: 0;
+  padding-block: 1.5rem;
+  border-block: 1px solid var(--linha);
+}
+
+.numeros div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.numeros dt {
+  color: var(--cinza);
+  font-size: var(--t-sm);
+}
+
+.numeros dd {
+  margin: 0;
+  color: var(--branco);
+  font-size: clamp(3rem, 2rem + 4vw, 5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+
+.apoio {
+  display: grid;
+  gap: 2.5rem;
+  margin: 0;
+}
+
+.apoio div {
+  padding-top: 1.25rem;
+  border-top: 1px solid rgb(255 255 255 / 0.35);
+}
+
+.apoio dd {
+  max-width: 30rem;
+  margin: 0.6rem 0 0;
+}
+
+@media (min-width: 60em) {
+  .apoio {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+.contrapartidas {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: var(--t-md);
+}
+
+.contrapartidas li + li {
+  margin-top: 0.75rem;
+}
+
+.parceiros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem 3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.parceiros img {
+  width: auto;
+  height: 3.5rem;
+}
+
+.convite {
+  margin: 1.5rem 0 2rem;
+}
+
+/* ---------- Contato ---------- */
+
+.canais {
+  display: grid;
+  gap: 2rem;
+}
+
+.canais-email {
+  color: var(--cinza);
+}
+
+.canais-instagram {
+  padding-top: 2rem;
+  border-top: 1px solid var(--linha);
+}
+
+/* ---------- Revelação na rolagem ----------
+   Só com JavaScript ativo e sem preferência por movimento reduzido */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-revelar] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.8s var(--ease),
+      transform 0.8s var(--ease);
+  }
+
+  .js [data-revelar].visivel {
+    opacity: 1;
+    transform: none;
+  }
+}
