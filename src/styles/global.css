@@ -1,0 +1,287 @@
+/* Archivo variável (peso 100–900, largura 62–125%), hospedada no próprio site */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url('/fonts/archivo-latin-var.woff2') format('woff2');
+}
+
+:root {
+  /* Cores */
+  --preto: #0b0b0d;
+  --grafite: #17171b;
+  --grafite-claro: #232328;
+  --branco: #ffffff;
+  --texto: #e9e7e2;
+  --cinza: #9a9893;
+  --linha: rgb(255 255 255 / 0.12);
+  --dourado: #d4af37; /* reservado a conquistas e à ação principal */
+  --dourado-escuro: #b8952a;
+
+  /* Tipografia: escala 14 · 16 · 18 · 21 · 24 · 36 · 48 · 60 · 72 */
+  --fonte: 'Archivo', system-ui, sans-serif;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.3125rem;
+  --t-lg: 1.5rem;
+  --t-xl: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  --t-2xl: clamp(2.75rem, 1.6rem + 5vw, 4.5rem);
+
+  /* Espaço e layout */
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --secao: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --largura: 76rem;
+  --medida: 38rem;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--preto);
+  color: var(--texto);
+  font-family: var(--fonte);
+  font-size: var(--t-base);
+  line-height: 1.6;
+  font-stretch: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  color: var(--branco);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* Títulos de seção: condensados e pesados, em caixa normal */
+.titulo {
+  font-size: var(--t-2xl);
+  font-weight: 850;
+  font-stretch: 70%;
+  letter-spacing: -0.01em;
+}
+
+.subtitulo {
+  font-size: var(--t-lg);
+  font-weight: 700;
+  font-stretch: 85%;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: var(--medida);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--branco);
+  text-decoration-color: rgb(255 255 255 / 0.35);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.2s;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--branco);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.pular {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--branco);
+  color: var(--preto);
+  font-weight: 700;
+}
+
+.pular:focus {
+  top: 1rem;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: var(--largura);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.secao {
+  padding-block: var(--secao);
+}
+
+.secao + .secao {
+  border-top: 1px solid var(--linha);
+}
+
+.cabecalho-secao {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+.cabecalho-secao p {
+  color: var(--cinza);
+  font-size: var(--t-md);
+  line-height: 1.5;
+}
+
+.cabecalho-pagina {
+  padding-top: clamp(8rem, 6rem + 6vw, 11rem);
+  padding-bottom: clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.cabecalho-pagina h1 {
+  font-size: clamp(3.25rem, 1.5rem + 8vw, 7.5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+.cabecalho-pagina p {
+  margin-top: 1.25rem;
+  color: var(--cinza);
+  font-size: var(--t-md);
+  line-height: 1.5;
+}
+
+/* Botões */
+.botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.botao {
+  --fundo: transparent;
+  --cor: var(--branco);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.8rem 1.4rem;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 2px;
+  background: var(--fundo);
+  color: var(--cor);
+  font: inherit;
+  font-size: var(--t-base);
+  font-weight: 700;
+  font-stretch: 88%;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    transform 0.25s var(--ease);
+}
+
+.botao:hover {
+  border-color: var(--branco);
+  background: rgb(255 255 255 / 0.06);
+}
+
+.botao:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.botao--principal {
+  --fundo: var(--dourado);
+  --cor: var(--preto);
+  border-color: var(--dourado);
+}
+
+.botao--principal:hover {
+  background: #e2c157;
+  border-color: #e2c157;
+}
+
+.botao svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* Marcação de conteúdo pendente (some quando o dado é preenchido) */
+.pendente {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border: 1px dashed rgb(255 255 255 / 0.3);
+  color: var(--cinza);
+  font-size: var(--t-sm);
+  font-stretch: 100%;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.foto-pendente {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: var(--grafite);
+  border: 1px dashed rgb(255 255 255 / 0.18);
+  color: var(--cinza);
+  font-size: var(--t-sm);
+  text-align: center;
+}
+
+/* Revelação na rolagem: só com JavaScript ativo e sem preferência por movimento reduzido */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-revelar] {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity 0.8s var(--ease),
+      transform 0.8s var(--ease);
+  }
+
+  .js [data-revelar].visivel {
+    opacity: 1;
+    transform: none;
+  }
+}

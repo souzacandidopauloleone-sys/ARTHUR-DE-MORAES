@@ -1,0 +1,100 @@
+---
+import { site, navegacao, nomeExibicao } from '../config/site';
+import BotaoInstagram from './BotaoInstagram.astro';
+import Cordas from './Cordas.astro';
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape">
+  <Cordas />
+  <div class="container grade">
+    <div>
+      <p class="nome">{nomeExibicao}</p>
+      <p class="modalidade">Atleta de {site.atleta.modalidade.toLowerCase()}</p>
+      <BotaoInstagram />
+    </div>
+    <nav aria-label="Rodapé">
+      <ul>
+        <li><a href="/">Início</a></li>
+        {
+          navegacao.map((item) => (
+            <li>
+              <a href={item.href}>{item.rotulo}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+  <div class="container legal">
+    <p>© {ano} {nomeExibicao}. Fotos e vídeos publicados com autorização do responsável.</p>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    margin-top: var(--secao);
+    padding-bottom: 2rem;
+  }
+
+  .grade {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: 3.5rem 2.5rem;
+  }
+
+  .nome {
+    margin: 0;
+    color: var(--branco);
+    font-size: 2.25rem;
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .modalidade {
+    margin: 0.4rem 0 1.5rem;
+    color: var(--cinza);
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  ul a {
+    color: var(--texto);
+    text-decoration: none;
+  }
+
+  ul a:hover {
+    color: var(--branco);
+    text-decoration: underline;
+  }
+
+  .legal p {
+    max-width: none;
+    margin: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linha);
+    color: var(--cinza);
+    font-size: var(--t-sm);
+  }
+
+  @media (min-width: 48em) {
+    .grade {
+      grid-template-columns: 1fr auto;
+      align-items: start;
+    }
+
+    ul {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+</style>

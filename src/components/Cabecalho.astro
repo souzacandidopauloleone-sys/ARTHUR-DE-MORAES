@@ -1,0 +1,226 @@
+---
+import { site, navegacao, nomeExibicao } from '../config/site';
+import BotaoInstagram from './BotaoInstagram.astro';
+
+const atual = Astro.url.pathname;
+const marca = site.atleta.nomeCurto || nomeExibicao;
+---
+
+<header class="cabecalho" data-cabecalho>
+  <div class="container barra">
+    <a class="marca" href="/" aria-label={`${nomeExibicao}, página inicial`}>{marca}</a>
+
+    <nav class="nav" id="menu" aria-label="Principal">
+      <ul>
+        {
+          navegacao.map((item) => (
+            <li>
+              <a href={item.href} aria-current={atual.startsWith(item.href) ? 'page' : undefined}>
+                {item.rotulo}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="acoes">
+      <BotaoInstagram compacto />
+      <button class="botao abrir-menu" type="button" aria-expanded="false" aria-controls="menu" data-abrir-menu>
+        <span class="sr-only">Abrir menu</span>
+        <span class="hamburguer" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const cabecalho = document.querySelector<HTMLElement>('[data-cabecalho]')!;
+  const botao = document.querySelector<HTMLButtonElement>('[data-abrir-menu]')!;
+  const rotulo = botao.querySelector('.sr-only')!;
+
+  const marcarRolagem = () => cabecalho.classList.toggle('solido', window.scrollY > 40);
+  marcarRolagem();
+  window.addEventListener('scroll', marcarRolagem, { passive: true });
+
+  const definirMenu = (aberto: boolean) => {
+    botao.setAttribute('aria-expanded', String(aberto));
+    rotulo.textContent = aberto ? 'Fechar menu' : 'Abrir menu';
+    cabecalho.classList.toggle('menu-aberto', aberto);
+    document.body.style.overflow = aberto ? 'hidden' : '';
+  };
+
+  botao.addEventListener('click', () => definirMenu(botao.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cabecalho.classList.contains('menu-aberto')) {
+      definirMenu(false);
+      botao.focus();
+    }
+  });
+  window.matchMedia('(min-width: 60em)').addEventListener('change', () => definirMenu(false));
+</script>
+
+<style>
+  .cabecalho {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    background: linear-gradient(rgb(11 11 13 / 0.85), rgb(11 11 13 / 0));
+    transition: background-color 0.3s;
+  }
+
+  .cabecalho.solido {
+    background: rgb(11 11 13 / 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--linha);
+  }
+
+  /* Sem backdrop-filter aqui: ele prenderia o menu em tela cheia dentro da barra */
+  .cabecalho.menu-aberto {
+    background: var(--preto);
+    backdrop-filter: none;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.25rem;
+  }
+
+  .marca {
+    color: var(--branco);
+    font-size: 1.375rem;
+    font-weight: 900;
+    font-stretch: 62%;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .acoes {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav a {
+    position: relative;
+    display: block;
+    color: var(--texto);
+    font-weight: 600;
+    font-stretch: 88%;
+    text-decoration: none;
+  }
+
+  .nav a[aria-current='page'] {
+    color: var(--branco);
+  }
+
+  /* Celular: menu em tela cheia */
+  .abrir-menu {
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .hamburguer,
+  .hamburguer::before {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.25s var(--ease);
+  }
+
+  .hamburguer {
+    position: relative;
+    transform: translateY(-3px);
+  }
+
+  .hamburguer::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+  }
+
+  .menu-aberto .hamburguer {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  .menu-aberto .hamburguer::before {
+    transform: translateY(-6px) rotate(-90deg);
+  }
+
+  @media (max-width: 59.99em) {
+    .nav {
+      position: fixed;
+      inset: 4.25rem 0 0;
+      display: none;
+      padding: 2rem var(--gutter);
+      background: var(--preto);
+      overflow-y: auto;
+    }
+
+    .menu-aberto .nav {
+      display: block;
+    }
+
+    .nav li + li {
+      border-top: 1px solid var(--linha);
+    }
+
+    .nav a {
+      padding-block: 1rem;
+      font-size: 2.25rem;
+      font-weight: 850;
+      font-stretch: 66%;
+    }
+
+    .nav a[aria-current='page'] {
+      text-decoration: underline 2px;
+      text-underline-offset: 0.18em;
+    }
+  }
+
+  /* Computador */
+  @media (min-width: 60em) {
+    .abrir-menu {
+      display: none;
+    }
+
+    .nav ul {
+      display: flex;
+      gap: clamp(1.25rem, 2vw, 2.25rem);
+    }
+
+    .nav a {
+      padding-block: 0.5rem;
+      font-size: 0.9375rem;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0.15rem;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .nav a:hover::after,
+    .nav a[aria-current='page']::after {
+      transform: scaleX(1);
+    }
+  }
+</style>

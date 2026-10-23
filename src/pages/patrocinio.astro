@@ -1,0 +1,212 @@
+---
+import Base from '../layouts/Base.astro';
+import Pendente from '../components/Pendente.astro';
+import { site, nomeExibicao } from '../config/site';
+import { separarCampeonatos } from '../lib/campeonatos';
+
+const { patrocinio, midiaKit } = site;
+const { realizados, conquistas } = await separarCampeonatos();
+
+// Formas de apoio: necessidades reais de qualquer atleta de competição.
+const formasDeApoio = [
+  { titulo: 'Inscrições e viagens', texto: 'Taxas de campeonatos, transporte e hospedagem para competir fora da cidade.' },
+  { titulo: 'Equipamentos', texto: 'Luvas, caneleiras, protetores, bandagens e uniforme de competição.' },
+  { titulo: 'Preparação', texto: 'Treinos, preparação física, acompanhamento nutricional e recuperação.' },
+];
+---
+
+<Base
+  titulo="Patrocínio"
+  descricao={`Como sua empresa pode patrocinar ${nomeExibicao}, atleta de kickboxing: formas de apoio e contato comercial.`}
+>
+  <header class="container cabecalho-pagina">
+    <h1>Patrocínio</h1>
+    <p>Apoie um atleta de kickboxing em formação e associe sua marca à disciplina e à competição.</p>
+  </header>
+
+  {
+    realizados.length > 0 && (
+      <section class="container" aria-label="Números confirmados">
+        <dl class="numeros" data-revelar>
+          <div>
+            <dt>Campeonatos disputados</dt>
+            <dd>{realizados.length}</dd>
+          </div>
+          <div>
+            <dt>Pódios</dt>
+            <dd class="ouro">{conquistas.length}</dd>
+          </div>
+        </dl>
+      </section>
+    )
+  }
+
+  <section class="secao container" aria-labelledby="t-apoio">
+    <div class="cabecalho-secao">
+      <h2 id="t-apoio" class="titulo" data-revelar>Formas de apoio</h2>
+    </div>
+    <dl class="apoio">
+      {
+        formasDeApoio.map((f) => (
+          <div data-revelar>
+            <dt class="subtitulo">{f.titulo}</dt>
+            <dd>{f.texto}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  {
+    (patrocinio.contrapartidas.length > 0 || import.meta.env.DEV) && (
+      <section class="secao container" aria-labelledby="t-contrapartidas">
+        <div class="cabecalho-secao">
+          <h2 id="t-contrapartidas" class="titulo" data-revelar>
+            O que a marca recebe
+          </h2>
+        </div>
+        {patrocinio.contrapartidas.length ? (
+          <ul class="contrapartidas" data-revelar>
+            {patrocinio.contrapartidas.map((c) => (
+              <li>{c}</li>
+            ))}
+          </ul>
+        ) : (
+          <Pendente texto="contrapartidas combinadas pelo responsável (site.ts → patrocinio.contrapartidas)" />
+        )}
+      </section>
+    )
+  }
+
+  {
+    patrocinio.parceiros.length > 0 && (
+      <section class="secao container" aria-labelledby="t-parceiros">
+        <div class="cabecalho-secao">
+          <h2 id="t-parceiros" class="titulo">
+            Parceiros
+          </h2>
+        </div>
+        <ul class="parceiros">
+          {patrocinio.parceiros.map((p) => (
+            <li>
+              {p.url ? (
+                <a href={p.url} target="_blank" rel="noopener">
+                  <img src={p.logo} alt={p.nome} loading="lazy" />
+                </a>
+              ) : (
+                <img src={p.logo} alt={p.nome} loading="lazy" />
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section class="secao container" aria-labelledby="t-contato">
+    <h2 id="t-contato" class="titulo" data-revelar>Vamos conversar</h2>
+    <p class="convite" data-revelar>
+      O contato comercial é feito com o responsável pelo atleta. Conte um pouco sobre sua empresa e o tipo de apoio
+      que imagina.
+    </p>
+    <div class="botoes" data-revelar>
+      <a class="botao botao--principal" href="/contato/">Falar com o responsável</a>
+      {
+        midiaKit && (
+          <a class="botao" href={midiaKit} download>
+            Baixar mídia kit (PDF)
+          </a>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .numeros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+    margin: 0;
+    padding-block: 1.5rem;
+    border-block: 1px solid var(--linha);
+  }
+
+  .numeros div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .numeros dt {
+    color: var(--cinza);
+    font-size: var(--t-sm);
+  }
+
+  .numeros dd {
+    margin: 0;
+    color: var(--branco);
+    font-size: clamp(3rem, 2rem + 4vw, 5rem);
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .numeros .ouro {
+    color: var(--dourado);
+  }
+
+  .apoio {
+    display: grid;
+    gap: 2.5rem;
+    margin: 0;
+  }
+
+  .apoio div {
+    padding-top: 1.25rem;
+    border-top: 1px solid rgb(255 255 255 / 0.35);
+  }
+
+  .apoio dd {
+    margin: 0.6rem 0 0;
+    max-width: 30rem;
+  }
+
+  @media (min-width: 60em) {
+    .apoio {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .contrapartidas {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: var(--t-md);
+  }
+
+  .contrapartidas li + li {
+    margin-top: 0.75rem;
+  }
+
+  .parceiros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .parceiros img {
+    height: 3.5rem;
+    width: auto;
+  }
+
+  .convite {
+    margin: 1.5rem 0 2rem;
+    font-size: var(--t-md);
+    line-height: 1.55;
+  }
+</style>

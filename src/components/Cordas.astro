@@ -1,0 +1,22 @@
+---
+/* Três fios que lembram as cordas do ringue. Usado só na abertura e no rodapé. */
+interface Props {
+  class?: string;
+}
+const { class: classe } = Astro.props;
+---
+
+<div class:list={['cordas', classe]} aria-hidden="true"><span></span><span></span><span></span></div>
+
+<style>
+  .cordas {
+    display: grid;
+    gap: 7px;
+  }
+
+  .cordas span {
+    display: block;
+    height: 1px;
+    background: rgb(255 255 255 / 0.22);
+  }
+</style>

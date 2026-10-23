@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import TabelaCampeonatos from '../components/TabelaCampeonatos.astro';
+import Vazio from '../components/Vazio.astro';
+import { nomeExibicao } from '../config/site';
+import { separarCampeonatos } from '../lib/campeonatos';
+
+const { futuros, realizados } = await separarCampeonatos();
+---
+
+<Base
+  titulo="Campeonatos"
+  descricao={`Histórico de campeonatos de kickboxing disputados por ${nomeExibicao}, com resultados confirmados e próximos eventos.`}
+>
+  <header class="container cabecalho-pagina">
+    <h1>Campeonatos</h1>
+    <p>O cartel completo: cada evento disputado, com categoria e resultado confirmados.</p>
+  </header>
+
+  {
+    futuros.length > 0 && (
+      <section class="container bloco" aria-labelledby="t-futuros">
+        <h2 id="t-futuros" class="subtitulo">
+          Próximos eventos
+        </h2>
+        <TabelaCampeonatos campeonatos={futuros} legenda="Próximos campeonatos confirmados" />
+      </section>
+    )
+  }
+
+  <section class="container bloco" aria-labelledby="t-historico">
+    <h2 id="t-historico" class="subtitulo">Histórico</h2>
+    {
+      realizados.length ? (
+        <TabelaCampeonatos campeonatos={realizados} legenda="Histórico de campeonatos disputados" />
+      ) : (
+        <Vazio
+          titulo="O histórico de campeonatos está em atualização."
+          instrucao='crie um arquivo por campeonato em src/content/campeonatos/ (veja _modelo.json) com "confirmado": true.'
+        />
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  .bloco {
+    margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+
+  .bloco .subtitulo {
+    margin-bottom: 1.5rem;
+  }
+</style>

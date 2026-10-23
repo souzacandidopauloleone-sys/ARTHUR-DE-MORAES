@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import { site, nomeExibicao } from '../config/site';
+import { abertura } from '../lib/midia';
+import Cabecalho from '../components/Cabecalho.astro';
+import Rodape from '../components/Rodape.astro';
+
+interface Props {
+  titulo: string;
+  descricao: string;
+  /** Dados estruturados (JSON-LD) específicos da página, somente com fatos confirmados. */
+  dadosEstruturados?: Record<string, unknown>;
+}
+
+const { titulo, descricao, dadosEstruturados } = Astro.props;
+
+const tituloCompleto = titulo ? `${titulo} | ${nomeExibicao}` : `${nomeExibicao} — Atleta de ${site.atleta.modalidade}`;
+const canonica = new URL(Astro.url.pathname, site.url).href;
+
+// Enquanto o domínio oficial não for definido, o site pede para não ser indexado.
+const preliminar = site.url.includes('dominio-pendente') || !site.atleta.nome;
+
+const og = abertura.horizontal
+  ? await getImage({ src: abertura.horizontal, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 })
+  : undefined;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonica} />
+    {preliminar && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#0b0b0d" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={nomeExibicao} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonica} />
+    {og && <meta property="og:image" content={new URL(og.src, site.url).href} />}
+    {og && <meta property="og:image:width" content="1200" />}
+    {og && <meta property="og:image:height" content="630" />}
+    {og && abertura.alt && <meta property="og:image:alt" content={abertura.alt} />}
+    <meta name="twitter:card" content={og ? 'summary_large_image' : 'summary'} />
+
+    {dadosEstruturados && <script type="application/ld+json" set:html={JSON.stringify(dadosEstruturados)} />}
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <Cabecalho />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Rodape />
+
+    <script>
+      // Revela elementos marcados com data-revelar quando entram na tela.
+      const alvos = document.querySelectorAll('[data-revelar]');
+      const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduzir || !('IntersectionObserver' in window)) {
+        alvos.forEach((el) => el.classList.add('visivel'));
+      } else {
+        const observador = new IntersectionObserver(
+          (entradas) => {
+            entradas.forEach((entrada) => {
+              if (entrada.isIntersecting) {
+                entrada.target.classList.add('visivel');
+                observador.unobserve(entrada.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px' },
+        );
+        alvos.forEach((el) => observador.observe(el));
+      }
+    </script>
+  </body>
+</html>

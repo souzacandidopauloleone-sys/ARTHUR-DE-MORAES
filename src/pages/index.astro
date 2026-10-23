@@ -1,0 +1,259 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Abertura from '../components/Abertura.astro';
+import Pendente from '../components/Pendente.astro';
+import TabelaCampeonatos from '../components/TabelaCampeonatos.astro';
+import { site, nomeExibicao } from '../config/site';
+import { separarCampeonatos, rotuloResultado, formatarData } from '../lib/campeonatos';
+
+const { futuros, conquistas } = await separarCampeonatos();
+const destaques = conquistas.slice(0, 3);
+const proximo = futuros[0];
+
+const fotos = (await getCollection('galeria', (g) => g.data.aprovado && g.data.tipo === 'foto'))
+  .sort((a, b) => Number(b.data.destaque) - Number(a.data.destaque))
+  .slice(0, 3);
+
+const descricao = site.historia.resumo
+  ? `${nomeExibicao}, atleta de kickboxing. ${site.historia.resumo}`.slice(0, 158)
+  : `Site oficial de ${nomeExibicao}, atleta de kickboxing: trajetória, campeonatos, conquistas e oportunidades de patrocínio.`;
+
+// Dados estruturados apenas com fatos confirmados (nome, esporte e perfil oficial).
+const pessoa = site.atleta.nome
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: site.atleta.nome,
+      url: site.url,
+      sameAs: [site.instagram.url],
+      knowsAbout: 'Kickboxing',
+      ...(site.atleta.academia && { memberOf: { '@type': 'SportsOrganization', name: site.atleta.academia } }),
+    }
+  : undefined;
+---
+
+<Base titulo="" descricao={descricao} dadosEstruturados={pessoa}>
+  <Abertura />
+
+  <section class="secao container trajetoria" aria-labelledby="t-trajetoria">
+    <h2 id="t-trajetoria" class="titulo" data-revelar>Trajetória</h2>
+    <div data-revelar>
+      {
+        site.historia.resumo ? (
+          <p class="resumo">{site.historia.resumo}</p>
+        ) : (
+          <Pendente texto="resumo da trajetória (site.ts → historia.resumo)" />
+        )
+      }
+      <a class="botao" href="/sobre/">Ler a história completa</a>
+    </div>
+  </section>
+
+  {
+    destaques.length > 0 && (
+      <section class="secao container" aria-labelledby="t-conquistas">
+        <div class="cabecalho-secao">
+          <h2 id="t-conquistas" class="titulo" data-revelar>
+            Conquistas
+          </h2>
+        </div>
+        <ol class="destaques">
+          {destaques.map((c) => (
+            <li class:list={['destaque', `destaque-${c.data.resultado}`]} data-revelar>
+              <span class="colocacao">{rotuloResultado[c.data.resultado]}</span>
+              <span class="evento">{c.data.titulo ?? c.data.evento}</span>
+              <span class="meta">
+                {[c.data.titulo ? c.data.evento : null, c.data.categoria, formatarData(c.data.data)]
+                  .filter(Boolean)
+                  .join(' · ')}
+              </span>
+            </li>
+          ))}
+        </ol>
+        <a class="botao" href="/conquistas/">Ver todas as conquistas</a>
+      </section>
+    )
+  }
+
+  {
+    proximo && (
+      <section class="secao container" aria-labelledby="t-proximo">
+        <div class="cabecalho-secao">
+          <h2 id="t-proximo" class="titulo" data-revelar>
+            Próximo campeonato
+          </h2>
+        </div>
+        <TabelaCampeonatos campeonatos={[proximo]} legenda="Próximo campeonato confirmado" />
+      </section>
+    )
+  }
+
+  {
+    fotos.length > 0 && (
+      <section class="secao container" aria-labelledby="t-galeria">
+        <div class="cabecalho-secao">
+          <h2 id="t-galeria" class="titulo" data-revelar>
+            Em combate
+          </h2>
+        </div>
+        <ul class="mosaico">
+          {fotos.map((f) => (
+            <li data-revelar>
+              <Image
+                src={f.data.imagem}
+                alt={f.data.alt}
+                widths={[400, 800, 1200]}
+                sizes="(min-width: 60em) 50vw, 100vw"
+                loading="lazy"
+              />
+            </li>
+          ))}
+        </ul>
+        <a class="botao" href="/galeria/">Abrir a galeria</a>
+      </section>
+    )
+  }
+
+  <section class="secao chamada" aria-labelledby="t-patrocinio">
+    <div class="container">
+      <h2 id="t-patrocinio" class="titulo" data-revelar>Sua marca no canto do atleta</h2>
+      <p data-revelar>
+        Patrocinadores ajudam a cobrir inscrições, viagens para campeonatos, equipamentos e preparação. Conheça as
+        formas de parceria.
+      </p>
+      <div class="botoes" data-revelar>
+        <a class="botao botao--principal" href="/patrocinio/">Oportunidades de patrocínio</a>
+        <a class="botao" href="/contato/">Falar com o responsável</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .trajetoria {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .resumo {
+    font-size: var(--t-md);
+    line-height: 1.55;
+    color: var(--texto);
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 60em) {
+    .trajetoria {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+  }
+
+  /* Conquistas em destaque: a colocação em dourado, grande, como num placar */
+  .destaques {
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .destaque {
+    display: grid;
+    gap: 0.25rem 2rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--linha);
+  }
+
+  .colocacao {
+    color: var(--dourado);
+    font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 0.95;
+  }
+
+  .destaque-prata .colocacao,
+  .destaque-bronze .colocacao {
+    color: var(--branco);
+  }
+
+  .destaque .evento {
+    color: var(--branco);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    font-stretch: 85%;
+    line-height: 1.2;
+  }
+
+  .destaque .meta {
+    color: var(--cinza);
+  }
+
+  @media (min-width: 48em) {
+    .destaque {
+      grid-template-columns: 14rem 1fr;
+      align-items: baseline;
+    }
+
+    .destaque .meta {
+      grid-column: 2;
+    }
+  }
+
+  /* Prévia da galeria: tamanhos desiguais, sem cartões */
+  .mosaico {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mosaico li:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .mosaico img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .mosaico li:first-child img {
+    aspect-ratio: 16 / 9;
+  }
+
+  @media (min-width: 60em) {
+    .mosaico {
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+    .mosaico li:first-child {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+
+    .mosaico li:first-child img {
+      aspect-ratio: auto;
+    }
+  }
+
+  .chamada {
+    background: var(--grafite);
+  }
+
+  .chamada .titulo {
+    max-width: 14ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .chamada p {
+    font-size: var(--t-md);
+    line-height: 1.55;
+    margin-bottom: 2rem;
+  }
+</style>

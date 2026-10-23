@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Vazio from '../components/Vazio.astro';
+import { nomeExibicao } from '../config/site';
+import { separarCampeonatos, rotuloResultado, formatarData } from '../lib/campeonatos';
+
+const { conquistas } = await separarCampeonatos();
+
+const contagem = [
+  { chave: 'ouro', rotulo: 'ouro' },
+  { chave: 'prata', rotulo: 'prata' },
+  { chave: 'bronze', rotulo: 'bronze' },
+].map((m) => ({ ...m, total: conquistas.filter((c) => c.data.resultado === m.chave).length }));
+---
+
+<Base
+  titulo="Conquistas"
+  descricao={`Medalhas e títulos de ${nomeExibicao} no kickboxing, com campeonato, categoria, ano e resultado.`}
+>
+  <header class="container cabecalho-pagina">
+    <h1>Conquistas</h1>
+    <p>Medalhas e títulos confirmados, do mais recente ao mais antigo.</p>
+  </header>
+
+  <div class="container">
+    {
+      conquistas.length === 0 ? (
+        <Vazio
+          titulo="As conquistas serão publicadas após a confirmação dos resultados."
+          instrucao='crie um arquivo em src/content/campeonatos/ (veja _modelo.json) com "confirmado": true e resultado ouro, prata ou bronze.'
+        />
+      ) : (
+        <>
+          <dl class="medalhas" data-revelar>
+            {contagem.map((m) => (
+              <div class:list={['medalha', `medalha-${m.chave}`]}>
+                <dt>Medalhas de {m.rotulo}</dt>
+                <dd data-contar={m.total}>{m.total}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <ol class="lista">
+            {conquistas.map((c) => (
+              <li class:list={['conquista', `conquista-${c.data.resultado}`]} data-revelar>
+                <div class="texto">
+                  <span class="colocacao">{rotuloResultado[c.data.resultado]}</span>
+                  <h2 class="subtitulo">{c.data.titulo ?? c.data.evento}</h2>
+                  <p>
+                    {[c.data.titulo ? c.data.evento : null, c.data.modalidade, c.data.categoria]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                  <p class="quando">
+                    <time datetime={c.data.data.toISOString().slice(0, 10)}>{formatarData(c.data.data)}</time>
+                    {c.data.cidade && <> · {c.data.cidade}</>}
+                  </p>
+                </div>
+                {c.data.foto && (
+                  <Image
+                    src={c.data.foto}
+                    alt={c.data.fotoAlt ?? `${nomeExibicao} no pódio do ${c.data.evento}`}
+                    widths={[480, 800, 1200]}
+                    sizes="(min-width: 60em) 45vw, 100vw"
+                    loading="lazy"
+                    class="foto"
+                  />
+                )}
+              </li>
+            ))}
+          </ol>
+        </>
+      )
+    }
+  </div>
+</Base>
+
+<script>
+  // Contador animado: só conta números reais vindos dos campeonatos confirmados.
+  const numeros = document.querySelectorAll<HTMLElement>('[data-contar]');
+  const reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduzir && 'IntersectionObserver' in window) {
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        const el = entrada.target as HTMLElement;
+        const final = Number(el.dataset.contar);
+        const inicio = performance.now();
+        const passo = (agora: number) => {
+          const p = Math.min((agora - inicio) / 900, 1);
+          el.textContent = String(Math.round(final * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) requestAnimationFrame(passo);
+        };
+        requestAnimationFrame(passo);
+        observador.unobserve(el);
+      });
+    });
+    numeros.forEach((el) => observador.observe(el));
+  }
+</script>
+
+<style>
+  .medalhas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 0 clamp(3rem, 2rem + 4vw, 6rem);
+    border-block: 1px solid var(--linha);
+  }
+
+  .medalha {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+    padding: 1.5rem 1rem 1.5rem 0;
+  }
+
+  .medalha + .medalha {
+    padding-left: 1rem;
+    border-left: 1px solid var(--linha);
+  }
+
+  .medalha dt {
+    color: var(--cinza);
+    font-size: var(--t-sm);
+  }
+
+  .medalha dd {
+    margin: 0;
+    color: var(--branco);
+    font-size: clamp(3rem, 2rem + 5vw, 6rem);
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .medalha-ouro dd {
+    color: var(--dourado);
+  }
+
+  .lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .conquista {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    border-top: 1px solid var(--linha);
+  }
+
+  .colocacao {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--branco);
+    font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+    font-weight: 900;
+    font-stretch: 62%;
+    line-height: 0.95;
+  }
+
+  .conquista-ouro .colocacao {
+    color: var(--dourado);
+  }
+
+  .texto p {
+    margin: 0.5rem 0 0;
+  }
+
+  .quando {
+    color: var(--cinza);
+  }
+
+  .conquista :global(.foto) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  @media (min-width: 60em) {
+    .conquista {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    /* Alterna o lado da foto para dar ritmo à leitura */
+    .conquista:nth-child(even) .texto {
+      order: 2;
+    }
+  }
+</style>
