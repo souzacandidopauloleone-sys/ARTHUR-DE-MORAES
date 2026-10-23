@@ -41,7 +41,7 @@
         <nav class="nav" id="menu" aria-label="Principal">
           <ul>
             <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#conquistas">Conquistas</a></li>
+            <li><a href="#boxe">Boxe</a></li>
             <li><a href="#em-acao">Em ação</a></li>
             <li><a href="#campeonatos">Campeonatos</a></li>
             <li><a href="#galeria">Galeria</a></li>
@@ -64,14 +64,15 @@
       <section class="abertura" id="inicio" aria-labelledby="nome-atleta">
         <!-- Fundo: vídeo real de luta, sem som e em repetição (decorativo; o vídeo com som está em "Em ação") -->
         <div class="abertura-fundo" aria-hidden="true">
-          <video class="abertura-video" src="videos/luta.mp4" poster="videos/luta-capa.webp" muted loop playsinline preload="metadata"></video>
+          <video autoplay muted loop playsinline preload="auto" class="hero-video abertura-video" poster="videos/luta-capa.webp">
+            <source src="videos/luta.mp4" type="video/mp4" />
+          </video>
           <div class="abertura-luz"></div>
         </div>
 
         <div class="container abertura-grade">
           <div class="abertura-conteudo">
-            <div class="cordas" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h1 id="nome-atleta" class="abertura-nome">Arthur de Moraes Cândido<span class="sr-only">, atleta de kickboxing</span></h1>
+            <h1 id="nome-atleta" class="abertura-nome">Arthur<span class="sr-only"> de Moraes Cândido, atleta de kickboxing</span></h1>
             <p class="abertura-categoria">Kickboxing · Sub-17 · Associação AUFAM</p>
             <p class="abertura-texto">1º lugar no Campeonato Brasileiro Sudeste em Point Fighting, até 69 kg.</p>
             <div class="botoes">
@@ -89,66 +90,76 @@
           <h2 id="t-sobre" class="titulo" data-revelar>Sobre o atleta</h2>
         </div>
         <div class="bloco">
-          <h3 class="subtitulo" data-revelar>Uma história de dedicação, coragem e superação</h3>
+          <div data-revelar>
+            <h3 class="subtitulo">Tudo começou em casa</h3>
+            <!-- Fotos do Arthur com o pai: copie um <figure> por foto (imagens em img/historia/) -->
+            <figure class="historia-foto">
+              <img src="img/historia/treino-com-o-pai.png" width="317" height="320" loading="lazy" alt="Arthur ainda criança, de luvas, treinando kickboxing com o pai em uma academia" />
+              <figcaption class="legenda">Os primeiros treinos, com o pai</figcaption>
+            </figure>
+            <figure class="historia-foto">
+              <img src="img/historia/primeiras-luvas.png" width="552" height="699" loading="lazy" alt="Arthur ainda criança, de luvas e regata da AUFAM, em guarda ao lado de um saco de pancada" />
+              <figcaption class="legenda">Ainda menino, já de luvas e com a camisa da AUFAM</figcaption>
+            </figure>
+          </div>
           <div data-revelar>
             <p>
-              O kickboxing é muito mais do que um esporte: é uma escola de disciplina, respeito e superação. É nesse
-              caminho que Arthur vem construindo sua história, com dedicação aos treinamentos, determinação para
-              enfrentar desafios e o sonho de alcançar grandes conquistas.
+              Antes das medalhas, antes do pódio, havia um menino olhando o pai treinar. Arthur não conheceu o
+              kickboxing pela televisão nem por acaso: conheceu pelo exemplo de quem estava mais perto dele.
             </p>
             <p>
-              Representando o Rio de Janeiro, ele já se destaca no cenário esportivo, com o 1º lugar no Campeonato
-              Brasileiro Sudeste em Point Fighting, na categoria até 69 kg. Entre seus resultados,
-              destaca-se a conquista de quatro vitórias em um único dia de competição, demonstrando preparo, foco e
-              espírito competitivo.
+              A curiosidade virou vontade, e a vontade virou o primeiro par de luvas. Os primeiros treinos foram ao
+              lado do pai — ele ensinando a guarda, o filho tentando acompanhar cada movimento. O que começou como um
+              momento entre os dois foi, aos poucos, virando paixão.
             </p>
             <p>
-              Por trás de cada resultado existem horas de treinamento, renúncias e o apoio fundamental de seu mestre e
-              de sua família. Cada luta é uma oportunidade de aprender, evoluir e provar que a verdadeira força está
-              na disciplina e na persistência.
+              Com o tempo, a brincadeira ganhou rotina, e a rotina ganhou propósito: treino, disciplina e respeito.
+              O pai, que foi o primeiro professor, passou a ser também o primeiro torcedor.
             </p>
             <p>
-              Sua jornada está apenas começando. Com os olhos voltados para novos desafios, o objetivo é continuar
-              evoluindo, conquistar novos títulos e levar o nome do Rio de Janeiro cada vez mais longe.
+              Hoje Arthur representa o Rio de Janeiro e já é campeão do Brasileiro Sudeste em Point Fighting, na
+              categoria até 69 kg, com quatro vitórias em um único dia de competição. Mas cada luta ainda carrega
+              aquele começo: o menino que viu o pai no tatame e decidiu que também queria estar ali.
             </p>
             <p class="lema">Mais do que vencer lutas, construir uma história que inspire.</p>
           </div>
         </div>
-        <div class="bloco bloco-equipe">
-          <h3 class="subtitulo" data-revelar>Equipe</h3>
-          <div data-revelar>
-            <dl class="equipe">
-              <div><dt>Equipe</dt><dd>Associação AUFAM</dd></div>
-              <div><dt>Federação</dt><dd>FKBERJ — Federação de Kickboxing do Estado do Rio de Janeiro</dd></div>
-              <!-- <div><dt>Treinador</dt><dd>Nome do treinador (somente com autorização dele)</dd></div> -->
-            </dl>
-          </div>
-        </div>
       </section>
 
-      <!-- ===================== CONQUISTAS ===================== -->
-      <section class="secao container" id="conquistas" aria-labelledby="t-conquistas">
+      <!-- ===================== CIRCUITO DE BOXE ===================== -->
+      <section class="secao container" id="boxe" aria-labelledby="t-boxe">
         <div class="cabecalho-secao">
-          <h2 id="t-conquistas" class="titulo" data-revelar>Conquistas</h2>
+          <h2 id="t-boxe" class="titulo" data-revelar>Campeão no boxe</h2>
         </div>
-        <!-- Copie um <li> por conquista. Classe: "destaque ouro", "destaque prata" ou "destaque bronze"
-             (ouro deixa a colocação dourada). -->
-        <ol class="destaques">
-          <li class="destaque ouro" data-revelar>
-            <span class="destaque-colocacao">1º lugar</span>
-            <span class="destaque-evento">Campeonato Brasileiro Sudeste — Point Fighting</span>
-            <span class="destaque-meta">Sub-17 · até 69 kg · e 2º lugar em Light Contact</span>
-          </li>
-          <li class="destaque prata" data-revelar>
-            <span class="destaque-colocacao">2º lugar</span>
-            <span class="destaque-evento">Campeonato Estadual de Kickboxing 2025</span>
-            <span class="destaque-meta">Rio de Janeiro · Sub-17 · até 69 kg</span>
-          </li>
-          <li class="destaque" data-revelar>
-            <span class="destaque-colocacao">4 vitórias</span>
-            <span class="destaque-evento">Em um único dia de competição</span>
-          </li>
-        </ol>
+        <div class="bloco">
+          <p class="boxe-titulo" data-revelar>
+            <span class="boxe-colocacao">1º lugar</span>
+            <span class="subtitulo">6º Circuito de Boxe Willian Guimarães</span>
+          </p>
+          <div data-revelar>
+            <p>
+              No kickboxing, Arthur luta com mãos e pernas. No boxe, só os punhos contam. Mesmo assim, ele aceitou o
+              desafio de entrar em outra modalidade, com outras regras, e voltou do 6º Circuito de Boxe Willian
+              Guimarães com o 1º lugar.
+            </p>
+            <p>
+              O resultado mostra que a base construída nos treinos vai além de um único esporte: guarda firme,
+              cabeça no lugar e coragem para encarar o que é novo.
+            </p>
+          </div>
+        </div>
+        <!-- Fotos do Circuito de Boxe (imagens em img/boxe/) -->
+        <div class="boxe-fotos" data-revelar>
+          <div class="boxe-linha boxe-linha--deitadas">
+            <img src="img/boxe/circuito-medalhas.png" width="943" height="711" loading="lazy" alt="Arthur com duas medalhas no peito em frente ao painel do 6º Circuito de Boxe Willian Guimarães" />
+            <img src="img/boxe/circuito-com-a-familia.png" width="936" height="707" loading="lazy" alt="Arthur com as medalhas no peito, entre um homem e uma mulher, em frente ao painel do circuito" />
+          </div>
+          <div class="boxe-linha boxe-linha--em-pe">
+            <img src="img/boxe/circuito-corpo-inteiro.png" width="537" height="708" loading="lazy" alt="Arthur de corpo inteiro, de regata e calção de luta, mostrando as medalhas diante do painel do circuito" />
+            <img src="img/boxe/circuito-pose-painel.png" width="547" height="726" loading="lazy" alt="Arthur faz pose de luta com as mãos estendidas para a câmera, com as medalhas no peito, diante do painel do circuito" />
+            <img src="img/boxe/circuito-pose.png" width="484" height="706" loading="lazy" alt="Arthur com as medalhas no peito, fazendo pose de luta com as mãos estendidas para a câmera" />
+          </div>
+        </div>
       </section>
 
       <!-- ===================== EM AÇÃO ===================== -->
@@ -156,12 +167,20 @@
         <div class="cabecalho-secao">
           <h2 id="t-em-acao" class="titulo" data-revelar>Em ação</h2>
         </div>
-        <figure class="video-luta" data-revelar>
-          <video controls preload="none" playsinline poster="videos/luta-capa.webp" aria-label="Vídeo: Arthur de Moraes Cândido lutando no tatame em campeonato de kickboxing">
-            <source src="videos/luta.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="legenda">Arthur no tatame, em combate de kickboxing.</figcaption>
-        </figure>
+        <div class="videos-lado" data-revelar>
+          <figure class="video-luta">
+            <video autoplay muted loop playsinline preload="auto" data-continuo data-inicio="5" data-fim="47.8" poster="videos/luta-capa.webp" aria-label="Vídeo: Arthur de Moraes Cândido lutando no tatame em campeonato de kickboxing">
+              <source src="videos/luta.mp4" type="video/mp4" />
+            </video>
+            <figcaption class="legenda">Arthur no tatame, em combate de kickboxing.</figcaption>
+          </figure>
+          <figure class="video-luta video-luta--quadrado">
+            <video autoplay muted loop playsinline preload="auto" data-continuo aria-label="Vídeo: árbitro levanta o braço de Arthur no tatame, anunciando a vitória">
+              <source src="videos/vitoria-anunciada.mp4" type="video/mp4" />
+            </video>
+            <figcaption class="legenda">Braço erguido: a vitória anunciada.</figcaption>
+          </figure>
+        </div>
       </section>
 
       <!-- ===================== CAMPEONATOS ===================== -->
@@ -387,7 +406,6 @@
 
     <!-- ===================== RODAPÉ ===================== -->
     <footer class="rodape">
-      <div class="cordas" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="container rodape-grade">
         <div>
           <p class="rodape-nome">Arthur de Moraes Cândido</p>
@@ -397,7 +415,6 @@
           <ul class="rodape-links">
             <li><a href="#inicio">Início</a></li>
             <li><a href="#sobre">Sobre</a></li>
-            <li><a href="#conquistas">Conquistas</a></li>
             <li><a href="#campeonatos">Campeonatos</a></li>
             <li><a href="#galeria">Galeria</a></li>
             <li><a href="#patrocinio">Patrocínio</a></li>

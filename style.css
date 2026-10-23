@@ -22,6 +22,7 @@
   --cinza: #9a9893;
   --linha: rgb(255 255 255 / 0.12);
   --dourado: #d4af37; /* reservado a conquistas e à ação principal */
+  --vermelho: #e10600; /* detalhe do título da abertura */
 
   /* Tipografia: escala 14 · 16 · 18 · 21 · 24 · 36 · 48 · 60 · 72 */
   --fonte: 'Archivo', system-ui, sans-serif;
@@ -286,19 +287,6 @@ a:hover {
   margin: 0;
 }
 
-/* ---------- Cordas do ringue (abertura e rodapé) ---------- */
-
-.cordas {
-  display: grid;
-  gap: 7px;
-}
-
-.cordas span {
-  display: block;
-  height: 1px;
-  background: rgb(255 255 255 / 0.22);
-}
-
 /* ---------- Cabeçalho ---------- */
 
 .cabecalho {
@@ -470,6 +458,7 @@ a:hover {
 .rodape {
   margin-top: var(--secao);
   padding-bottom: 2rem;
+  border-top: 1px solid var(--linha);
 }
 
 .rodape-grade {
@@ -551,13 +540,18 @@ a:hover {
   z-index: -1;
 }
 
-/* Fundo da abertura: vídeo real de luta, escurecido para o nome ficar legível */
-.abertura-video {
+/* Fundo da abertura: vídeo real de luta, em repetição, sem controles */
+.hero-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.abertura-video {
   object-position: 50% 45%;
   /* Realce de cor: mais claro, contraste e cor mais vivos */
   filter: brightness(1.05) contrast(1.12) saturate(1.3);
@@ -584,6 +578,30 @@ a:hover {
 .video-luta figcaption {
   display: block;
   padding-top: 0.75rem;
+}
+
+/* Sem clique no vídeo: ele roda direto, sem pausa */
+.video-luta video {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.video-luta--quadrado video {
+  aspect-ratio: 1 / 1;
+}
+
+/* Dois vídeos lado a lado no computador; as colunas seguem o formato de cada vídeo
+   para os dois ficarem da mesma altura. No celular, um embaixo do outro. */
+.videos-lado {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 48em) {
+  .videos-lado {
+    grid-template-columns: 1018fr 576fr;
+    align-items: start;
+  }
 }
 
 /* Fundo: fotos reais em sequência. No celular aparecem nítidas atrás do texto;
@@ -700,14 +718,15 @@ a:hover {
   }
 }
 
-/* Luz lateral e profundidade: escurece a base e a esquerda para o nome respirar */
+/* Sobreposição leve acima do vídeo: ajuda a leitura do texto;
+   a base se funde com a seção seguinte. */
 .abertura-luz {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
-    linear-gradient(to top, var(--preto) 0%, rgb(11 11 13 / 0.55) 22%, rgb(11 11 13 / 0) 50%),
-    linear-gradient(to right, rgb(11 11 13 / 0.55) 0%, rgb(11 11 13 / 0.15) 40%, rgb(11 11 13 / 0) 60%),
-    radial-gradient(ellipse 60% 50% at 78% 22%, rgb(212 175 55 / 0.1), transparent 70%);
+    linear-gradient(to top, var(--preto) 0%, rgb(11 11 13 / 0) 18%),
+    linear-gradient(to right, rgb(0 0 0 / 0.3), rgb(0 0 0 / 0) 55%);
 }
 
 .abertura-conteudo {
@@ -716,49 +735,53 @@ a:hover {
   min-width: 0;
 }
 
-.abertura-conteudo .cordas {
-  width: min(22rem, 70%);
-  margin-bottom: 1.5rem;
-}
 
-/* O nome: Archivo Black extracondensada, enorme, alinhado à esquerda.
-   Limitado também pela altura, para nomes longos caberem na primeira tela. */
+/* O nome: Archivo condensada e pesada, enorme, alinhado à esquerda, sem quebrar a palavra */
 .abertura-nome {
   max-width: 100%;
-  font-size: clamp(3rem, min(13.5vw, 19svh), 13rem);
-  text-shadow: 0 4px 40px rgb(0 0 0 / 0.5);
+  color: #fff;
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  text-shadow: 0 4px 24px rgb(0 0 0 / 0.6);
   font-weight: 900;
   font-stretch: 62%;
-  line-height: 0.94;
+  line-height: 0.95;
   letter-spacing: -0.005em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+}
+
+/* Detalhe em vermelho: linha curta embaixo do nome */
+.abertura-nome::after {
+  content: '';
+  display: block;
+  width: 0.9em;
+  max-width: 6rem;
+  height: 5px;
+  margin-top: 1.25rem;
+  background: var(--vermelho);
+}
+
+/* Subtítulos: menores e discretos, para não competir com o nome */
+.abertura-categoria,
+.abertura-texto {
+  max-width: 34rem;
+  color: #d9d9d9;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .abertura-categoria {
-  margin: 1.25rem 0 0;
-  color: var(--branco);
-  font-size: var(--t-md);
-  font-weight: 600;
-  font-stretch: 85%;
+  margin: 1.5rem 0 0;
 }
 
 .abertura-texto {
-  max-width: 34rem;
-  margin: 0.75rem 0 0;
-  color: var(--texto);
-  font-size: var(--t-md);
-  line-height: 1.5;
+  margin: 0.5rem 0 0;
 }
 
 .abertura-conteudo .botoes {
   margin-top: 2rem;
-}
-
-@media (min-width: 60em) {
-  .abertura-nome {
-    font-size: clamp(3rem, min(7.6vw, 16svh), 9rem);
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -807,19 +830,6 @@ a:hover {
 
   .abertura-conteudo .botoes {
     animation-delay: 1.15s;
-  }
-
-  .abertura-conteudo .cordas span {
-    transform-origin: left;
-    animation: esticar 1.1s var(--ease) both;
-  }
-
-  .abertura-conteudo .cordas span:nth-child(2) {
-    animation-delay: 0.08s;
-  }
-
-  .abertura-conteudo .cordas span:nth-child(3) {
-    animation-delay: 0.16s;
   }
 }
 
@@ -876,14 +886,6 @@ a:hover {
   }
 }
 
-@keyframes esticar {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
 
 /* ---------- Página inicial: demais seções ---------- */
 
@@ -900,52 +902,6 @@ a:hover {
   .trajetoria {
     grid-template-columns: 5fr 7fr;
     align-items: start;
-  }
-}
-
-/* Conquistas em destaque: a colocação grande, como num placar */
-.destaques {
-  margin: 0 0 2.5rem;
-  padding: 0;
-  list-style: none;
-}
-
-.destaque {
-  display: grid;
-  gap: 0.25rem 2rem;
-  padding-block: 1.5rem;
-  border-top: 1px solid var(--linha);
-}
-
-.destaque-colocacao {
-  white-space: nowrap;
-  color: var(--branco);
-  font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 0.95;
-}
-
-.destaque-evento {
-  color: var(--branco);
-  font-size: var(--t-lg);
-  font-weight: 700;
-  font-stretch: 85%;
-  line-height: 1.2;
-}
-
-.destaque-meta {
-  color: var(--cinza);
-}
-
-@media (min-width: 48em) {
-  .destaque {
-    grid-template-columns: 14rem 1fr;
-    align-items: baseline;
-  }
-
-  .destaque-meta {
-    grid-column: 2;
   }
 }
 
@@ -1007,7 +963,6 @@ a:hover {
 /* ---------- O dourado marca o pódio ----------
    ouro: barra cheia e texto dourado · prata e bronze: barra fina */
 
-.ouro .destaque-colocacao,
 .ouro .conquista-colocacao,
 .ouro .resultado-rotulo,
 .medalha-ouro dd,
@@ -1238,6 +1193,72 @@ a:hover {
   line-height: 1.3;
 }
 
+/* Fotos da história com o pai, abaixo do subtítulo */
+.historia-foto {
+  max-width: 20rem;
+  margin: 1.5rem 0 0;
+}
+
+.historia-foto img,
+.historia-foto video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--linha);
+}
+
+.historia-foto figcaption {
+  display: block;
+  padding-top: 0.75rem;
+}
+
+/* ---------- Circuito de Boxe ---------- */
+
+.boxe-titulo {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  margin: 0;
+}
+
+.boxe-colocacao {
+  color: var(--dourado);
+  font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  font-weight: 900;
+  font-stretch: 62%;
+  line-height: 0.95;
+}
+
+/* Fotos em duas linhas: as deitadas em cima e as em pé embaixo.
+   Em cada linha as colunas seguem o formato de cada foto, para todas ficarem da mesma altura.
+   No celular, as deitadas ficam uma embaixo da outra. */
+.boxe-fotos {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.boxe-linha {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.boxe-linha img {
+  width: 100%;
+  height: auto;
+}
+
+/* Largura ÷ altura de cada foto (537/708, 547/726, 484/706) */
+.boxe-linha--em-pe {
+  grid-template-columns: 758fr 753fr 686fr;
+}
+
+@media (min-width: 48em) {
+  .boxe-linha--deitadas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .bloco + .bloco {
   margin-top: 3rem;
   padding-top: 3rem;
@@ -1255,25 +1276,6 @@ a:hover {
   .bloco {
     grid-template-columns: 4fr 8fr;
   }
-}
-
-.equipe {
-  display: grid;
-  gap: 1.25rem;
-  margin: 0;
-}
-
-.equipe dt {
-  color: var(--cinza);
-  font-size: var(--t-sm);
-}
-
-.equipe dd {
-  margin: 0;
-  color: var(--branco);
-  font-size: var(--t-lg);
-  font-weight: 700;
-  font-stretch: 85%;
 }
 
 /* Linha do tempo: um fio vertical com os anos */
