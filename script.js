@@ -61,10 +61,10 @@ if (videoAbertura && !reduzirMovimento && !navigator.connection?.saveData) {
   videoAbertura.loop = true;
   videoAbertura.preload = 'auto';
   const tocar = () => videoAbertura.play().catch(() => {});
-  videoAbertura.addEventListener('loadedmetadata', tocar, { once: true });
-  if (videoAbertura.readyState >= 1) tocar();
-  // Ao voltar para a aba, retoma
-  document.addEventListener('visibilitychange', () => !document.hidden && tocar());
+  // Com preload="none" no HTML, o vídeo só começa a baixar aqui
+  tocar();
+  // Ao voltar para a aba, retoma (se a abertura estiver na tela)
+  document.addEventListener('visibilitychange', () => !document.hidden && aberturaNaTela && tocar());
 
   // Tela estreita (celular): ela mostra só uma faixa do vídeo. O enquadramento desliza
   // suavemente atrás do Arthur, como uma câmera acompanhando a luta.
@@ -89,27 +89,22 @@ if (videoAbertura && !reduzirMovimento && !navigator.connection?.saveData) {
   let enquadramento = null;
   let visivel = 1; // fração da largura do vídeo que cabe na tela
   let aberturaNaTela = true;
-  let rodando = false;
+  let laco = 0; // id do requestAnimationFrame em andamento (0 = parado)
 
   const quadro = () => {
-    if (!rodando) return;
     const centro = posicaoNoTempo(videoAbertura.currentTime);
     const alvo = Math.min(1, Math.max(0, (centro - visivel / 2) / (1 - visivel)));
     // Aproxima aos poucos do alvo: movimento suave, sem trancos
     enquadramento = enquadramento === null ? alvo : enquadramento + (alvo - enquadramento) * 0.06;
     videoAbertura.style.objectPosition = `${(enquadramento * 100).toFixed(2)}% 45%`;
-    requestAnimationFrame(quadro);
+    laco = requestAnimationFrame(quadro);
   };
 
-  // O laço de animação só roda com a abertura na tela e a tela estreita
+  // O laço de animação só roda com a abertura na tela e a tela estreita.
+  // Cancela o anterior antes, para nunca rodarem dois laços ao mesmo tempo.
   const atualizarLaco = () => {
-    const deve = aberturaNaTela && visivel < 0.8;
-    if (deve && !rodando) {
-      rodando = true;
-      requestAnimationFrame(quadro);
-    } else if (!deve) {
-      rodando = false;
-    }
+    cancelAnimationFrame(laco);
+    laco = aberturaNaTela && visivel < 0.8 ? requestAnimationFrame(quadro) : 0;
   };
 
   const medir = () => {
@@ -127,6 +122,9 @@ if (videoAbertura && !reduzirMovimento && !navigator.connection?.saveData) {
   videoAbertura.addEventListener('loadedmetadata', medir);
   new IntersectionObserver(([entrada]) => {
     aberturaNaTela = entrada.isIntersecting;
+    // Fora da tela, pausa (economiza bateria); ao voltar, retoma
+    if (aberturaNaTela) tocar();
+    else videoAbertura.pause();
     atualizarLaco();
   }).observe(videoAbertura);
 }

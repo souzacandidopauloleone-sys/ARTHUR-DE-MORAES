@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Arthur de Moraes Cândido — Atleta de Kickboxing</title>
-    <meta name="description" content="Site oficial de Arthur de Moraes Cândido, atleta de kickboxing da Associação AUFAM, campeão do Brasileiro Sudeste em Point Fighting." />
-    <link rel="canonical" href="https://dominio-pendente.com.br/" />
+    <title>Arthur de Moraes Cândido — Atleta de Kickboxing no RJ</title>
+    <meta name="description" content="Site oficial de Arthur de Moraes Cândido, atleta de kickboxing da Associação AUFAM, campeão do Brasileiro Sudeste em Point Fighting. Conheça a trajetória e apoie." />
+    <meta name="author" content="Arthur de Moraes Cândido" />
+    <!-- {{DOMINIO}}: trocar pelo domínio oficial, sem barra no final (ex.: https://exemplo.com.br), em todo este <head> -->
+    <link rel="canonical" href="{{DOMINIO}}/" />
     <!-- REMOVER na publicação oficial: impede o Google de indexar enquanto o site não está pronto -->
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#0b0b0d" />
@@ -13,18 +15,32 @@
     <!-- style.min.css e script.min.js são gerados a partir de style.css e script.js (edite estes e gere de novo) -->
     <link rel="stylesheet" href="style.min.css" />
     <link rel="preload" href="fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="videos/luta-capa.webp" as="image" type="image/webp" />
+    <link rel="preload" href="videos/luta-capa.webp" as="image" type="image/webp" fetchpriority="high" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content="Arthur de Moraes Cândido" />
     <meta property="og:title" content="Arthur de Moraes Cândido — Atleta de Kickboxing" />
     <meta property="og:description" content="Trajetória, campeonatos, conquistas e oportunidades de patrocínio." />
-    <meta property="og:url" content="https://dominio-pendente.com.br/" />
-    <!-- Na publicação, trocar pelo endereço completo do domínio: https://SEU-DOMINIO/img/galeria/podio-1-guarda.webp -->
-    <meta property="og:image" content="img/galeria/podio-1-guarda.webp" />
+    <meta property="og:url" content="{{DOMINIO}}/" />
+    <meta property="og:image" content="{{DOMINIO}}/img/galeria/podio-1-guarda.webp" />
+    <!-- Tamanho real da foto acima (583x724). Se um dia ela for trocada por uma de 1200x630, atualizar aqui. -->
+    <meta property="og:image:width" content="583" />
+    <meta property="og:image:height" content="724" />
+    <meta property="og:image:alt" content="Arthur de Moraes Cândido, atleta de kickboxing, no primeiro lugar do pódio com a medalha no peito" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Arthur de Moraes Cândido", "url": "https://dominio-pendente.com.br/", "sameAs": ["https://www.instagram.com/moraes.kbx/"], "knowsAbout": "Kickboxing", "memberOf": {"@type": "SportsOrganization", "name": "Associação AUFAM"}}</script>
+    <meta name="twitter:title" content="Arthur de Moraes Cândido — Atleta de Kickboxing" />
+    <meta name="twitter:description" content="Trajetória, campeonatos, conquistas e oportunidades de patrocínio." />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          { "@type": "WebSite", "@id": "{{DOMINIO}}/#site", "url": "{{DOMINIO}}/", "name": "Arthur de Moraes Cândido", "inLanguage": "pt-BR" },
+          { "@type": "ProfilePage", "@id": "{{DOMINIO}}/#pagina", "url": "{{DOMINIO}}/", "name": "Arthur de Moraes Cândido — Atleta de Kickboxing", "isPartOf": { "@id": "{{DOMINIO}}/#site" }, "inLanguage": "pt-BR", "mainEntity": { "@id": "{{DOMINIO}}/#arthur" } },
+          { "@type": "Person", "@id": "{{DOMINIO}}/#arthur", "name": "Arthur de Moraes Cândido", "jobTitle": "Atleta de kickboxing", "description": "Atleta de kickboxing da Associação AUFAM, campeão do Campeonato Brasileiro Sudeste em Point Fighting (Sub-17, até 69 kg).", "url": "{{DOMINIO}}/", "sameAs": ["https://www.instagram.com/moraes.kbx/"], "knowsAbout": ["Kickboxing", "Point Fighting", "Light Contact", "Boxe"], "memberOf": { "@type": "SportsOrganization", "name": "Associação AUFAM" } }
+        ]
+      }
+    </script>
 
     <script>
       document.documentElement.classList.add('js');
@@ -64,7 +80,7 @@
       <section class="abertura" id="inicio" aria-labelledby="nome-atleta">
         <!-- Fundo: vídeo real de luta, sem som e em repetição (decorativo). O arquivo já vem cortado e com a cor ajustada. -->
         <div class="abertura-fundo" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="auto" class="hero-video abertura-video" poster="videos/luta-capa.webp">
+          <video muted loop playsinline preload="none" class="hero-video abertura-video" poster="videos/luta-capa.webp">
             <source src="videos/luta.mp4" type="video/mp4" />
           </video>
           <div class="abertura-luz"></div>
@@ -396,7 +412,7 @@
         <div class="canais" data-revelar>
           <!-- WhatsApp do RESPONSÁVEL (nunca o telefone do atleta). Formato: 55 + DDD + número, só dígitos. -->
           <div class="botoes">
-            <a class="botao botao--principal" href="https://wa.me/5521981695055?text=Ol%C3%A1!%20Represento%20uma%20empresa%20e%20tenho%20interesse%20em%20conversar%20sobre%20patroc%C3%ADnio%20ao%20atleta%20Arthur%20de%20Moraes%20C%C3%A2ndido." target="_blank" rel="noopener">Conversar pelo WhatsApp<span class="sr-only">(abre em nova aba)</span></a>
+            <a class="botao botao--principal" href="https://wa.me/5521981695055?text=Ol%C3%A1!%20Vim%20pelo%20site%20do%20atleta%20Arthur%20de%20Moraes%20C%C3%A2ndido%20e%20tenho%20interesse%20em%20conversar%20sobre%20patroc%C3%ADnio.%0A%0AEmpresa%3A%0ATipo%20de%20apoio%3A" target="_blank" rel="noopener">Conversar pelo WhatsApp<span class="sr-only">(abre em nova aba)</span></a>
             <a class="botao" href="https://www.instagram.com/moraes.kbx/" data-instagram target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle></svg><span>Instagram oficial</span><span class="sr-only">(abre em nova aba)</span></a>
           </div>
           <p class="canais-email">WhatsApp do responsável: (21) 98169-5055</p>
