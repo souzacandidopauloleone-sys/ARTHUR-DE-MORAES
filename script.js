@@ -1,6 +1,6 @@
 /* =========================================================
    SITE OFICIAL — ATLETA DE KICKBOXING
-   Comportamentos de todas as páginas.
+   Comportamentos do site. Depois de editar, gere de novo o script.min.js.
    O site funciona mesmo se este arquivo não carregar.
    ========================================================= */
 
@@ -52,43 +52,30 @@ if (cabecalho && botaoMenu) {
 }
 
 /* ---------- Abertura: vídeo de luta em repetição ----------
-   Toca de 5 s a 47,8 s (pula as vinhetas do Instagram no início e no fim). Não toca para quem pediu
-   menos movimento nem com economia de dados ligada: aí fica só a imagem de capa. */
+   O arquivo já vem cortado (sem as vinhetas do Instagram), sem som e com a cor ajustada.
+   Não toca para quem pediu menos movimento nem com economia de dados ligada: aí fica só a imagem de capa. */
 const videoAbertura = document.querySelector('.abertura-video');
-const INICIO_VIDEO = 5;
-const FIM_VIDEO = 47.8; // a vinheta final do Instagram começa por volta dos 48 s
 
 if (videoAbertura && !reduzirMovimento && !navigator.connection?.saveData) {
-  // Repetição infinita e sem pausa: o próprio navegador emenda o fim no começo (loop),
-  // e logo na volta pulamos a vinheta dos primeiros segundos.
+  // Repetição infinita: o próprio navegador emenda o fim no começo (loop)
   videoAbertura.loop = true;
   videoAbertura.preload = 'auto';
   const tocar = () => videoAbertura.play().catch(() => {});
-  videoAbertura.addEventListener('timeupdate', () => {
-    const t = videoAbertura.currentTime;
-    if (t < INICIO_VIDEO || t >= FIM_VIDEO) videoAbertura.currentTime = INICIO_VIDEO;
-  });
   videoAbertura.addEventListener('loadedmetadata', tocar, { once: true });
   if (videoAbertura.readyState >= 1) tocar();
-  // Se o navegador pausar por conta própria (ex.: ao voltar para a aba), retoma
-  videoAbertura.addEventListener('pause', () => setTimeout(tocar, 100));
-  // Reforço do loop: se o vídeo chegar ao fim, volta ao início e continua tocando
-  videoAbertura.addEventListener('ended', () => {
-    videoAbertura.currentTime = 0;
-    tocar();
-  });
+  // Ao voltar para a aba, retoma
   document.addEventListener('visibilitychange', () => !document.hidden && tocar());
 
-  // Celular: a tela estreita mostra só uma faixa do vídeo. O enquadramento desliza
+  // Tela estreita (celular): ela mostra só uma faixa do vídeo. O enquadramento desliza
   // suavemente atrás do Arthur, como uma câmera acompanhando a luta.
   // Posição horizontal dele no quadro (0 = esquerda, 1 = direita), a cada segundo.
   const POSICAO_ARTHUR = [
-    [5, 0.44], [6, 0.59], [7, 0.46], [8, 0.66], [9, 0.73], [10, 0.82], [11, 0.63], [12, 0.62],
-    [13, 0.57], [14, 0.3], [15, 0.17], [16, 0.2], [17, 0.69], [18, 0.69], [19, 0.78], [20, 0.76],
-    [21, 0.6], [22, 0.46], [23, 0.36], [24, 0.42], [25, 0.79], [26, 0.85], [27, 0.85], [28, 0.92],
-    [29, 0.79], [30, 0.58], [31, 0.9], [32, 0.69], [33, 0.4], [34, 0.46], [35, 0.5], [36, 0.5],
-    [37, 0.42], [38, 0.69], [39, 0.6], [40, 0.36], [41, 0.27], [42, 0.35], [43, 0.54], [44, 0.77],
-    [45, 0.72], [46, 0.69], [47, 0.57], [48, 0.57],
+    [0, 0.44], [1, 0.59], [2, 0.46], [3, 0.66], [4, 0.73], [5, 0.82], [6, 0.63], [7, 0.62],
+    [8, 0.57], [9, 0.3], [10, 0.17], [11, 0.2], [12, 0.69], [13, 0.69], [14, 0.78], [15, 0.76],
+    [16, 0.6], [17, 0.46], [18, 0.36], [19, 0.42], [20, 0.79], [21, 0.85], [22, 0.85], [23, 0.92],
+    [24, 0.79], [25, 0.58], [26, 0.9], [27, 0.69], [28, 0.4], [29, 0.46], [30, 0.5], [31, 0.5],
+    [32, 0.42], [33, 0.69], [34, 0.6], [35, 0.36], [36, 0.27], [37, 0.35], [38, 0.54], [39, 0.77],
+    [40, 0.72], [41, 0.69], [42, 0.57], [43, 0.57],
   ];
 
   const posicaoNoTempo = (t) => {
@@ -100,88 +87,74 @@ if (videoAbertura && !reduzirMovimento && !navigator.connection?.saveData) {
   };
 
   let enquadramento = null;
-  const acompanhar = () => {
+  let visivel = 1; // fração da largura do vídeo que cabe na tela
+  let aberturaNaTela = true;
+  let rodando = false;
+
+  const quadro = () => {
+    if (!rodando) return;
+    const centro = posicaoNoTempo(videoAbertura.currentTime);
+    const alvo = Math.min(1, Math.max(0, (centro - visivel / 2) / (1 - visivel)));
+    // Aproxima aos poucos do alvo: movimento suave, sem trancos
+    enquadramento = enquadramento === null ? alvo : enquadramento + (alvo - enquadramento) * 0.06;
+    videoAbertura.style.objectPosition = `${(enquadramento * 100).toFixed(2)}% 45%`;
+    requestAnimationFrame(quadro);
+  };
+
+  // O laço de animação só roda com a abertura na tela e a tela estreita
+  const atualizarLaco = () => {
+    const deve = aberturaNaTela && visivel < 0.8;
+    if (deve && !rodando) {
+      rodando = true;
+      requestAnimationFrame(quadro);
+    } else if (!deve) {
+      rodando = false;
+    }
+  };
+
+  const medir = () => {
     const proporcaoTela = videoAbertura.clientWidth / videoAbertura.clientHeight;
     const proporcaoVideo = (videoAbertura.videoWidth || 1018) / (videoAbertura.videoHeight || 576);
-    const visivel = proporcaoTela / proporcaoVideo; // fração da largura do vídeo que cabe na tela
-    if (visivel < 0.8) {
-      const centro = posicaoNoTempo(videoAbertura.currentTime);
-      const alvo = Math.min(1, Math.max(0, (centro - visivel / 2) / (1 - visivel)));
-      // Aproxima aos poucos do alvo: movimento suave, sem trancos
-      enquadramento = enquadramento === null ? alvo : enquadramento + (alvo - enquadramento) * 0.06;
-      videoAbertura.style.objectPosition = `${(enquadramento * 100).toFixed(2)}% 45%`;
-    } else if (enquadramento !== null) {
+    visivel = proporcaoTela / proporcaoVideo;
+    if (visivel >= 0.8 && enquadramento !== null) {
       enquadramento = null;
       videoAbertura.style.objectPosition = '';
     }
-    requestAnimationFrame(acompanhar);
+    atualizarLaco();
   };
-  requestAnimationFrame(acompanhar);
+
+  new ResizeObserver(medir).observe(videoAbertura);
+  videoAbertura.addEventListener('loadedmetadata', medir);
+  new IntersectionObserver(([entrada]) => {
+    aberturaNaTela = entrada.isIntersecting;
+    atualizarLaco();
+  }).observe(videoAbertura);
 }
 
 /* ---------- Vídeos contínuos (data-continuo): sem som, sem botões e sem pausa ----------
-   data-inicio e data-fim (em segundos) limitam o trecho que se repete. */
-document.querySelectorAll('video[data-continuo]').forEach((v) => {
-  const inicio = parseFloat(v.dataset.inicio) || 0;
-  const fim = parseFloat(v.dataset.fim) || Infinity;
-  const tocar = () => v.play().catch(() => {});
-  v.muted = true;
-  v.addEventListener('volumechange', () => {
-    if (!v.muted) v.muted = true;
-  });
-  v.addEventListener('timeupdate', () => {
-    if (v.currentTime < inicio || v.currentTime >= fim) v.currentTime = inicio;
-  });
-  v.addEventListener('pause', () => setTimeout(tocar, 100));
-  v.addEventListener('ended', () => {
-    v.currentTime = inicio;
-    tocar();
-  });
-  document.addEventListener('visibilitychange', () => !document.hidden && tocar());
-  tocar();
-});
+   Só carregam e tocam quando aparecem na tela; ao sair, pausam. */
+const videosContinuos = document.querySelectorAll('video[data-continuo]');
 
-/* ---------- Abertura: fotos em sequência (quadro e fundo trocam juntos) ---------- */
-const quadros = document.querySelectorAll('.quadro-slide');
-const fundos = document.querySelectorAll('.fundo-slide');
-const marcas = document.querySelectorAll('.quadro-progresso span');
-const DURACAO = 5500;
-
-if (fundos.length > 1 && !reduzirMovimento) {
-  let atual = 0;
-  let timer;
-
-  const mostrar = (i) => {
-    [quadros, fundos].forEach((lista) =>
-      lista.forEach((img, n) => {
-        img.classList.toggle('ativo', n === i);
-        if (n === i) img.loading = 'eager';
-      }),
-    );
-    marcas.forEach((m, n) => {
-      m.classList.toggle('feito', n < i);
-      m.classList.remove('atual');
-      if (n === i) {
-        void m.offsetWidth; // reinicia a animação da barra
-        m.classList.add('atual');
+if (videosContinuos.length) {
+  const tocarVideo = (v) => v.play().catch(() => {});
+  const naTela = new Set();
+  const observadorVideos = new IntersectionObserver((entradas) => {
+    entradas.forEach(({ target: v, isIntersecting }) => {
+      if (isIntersecting) {
+        naTela.add(v);
+        tocarVideo(v);
+      } else {
+        naTela.delete(v);
+        v.pause();
       }
     });
-  };
-
-  const iniciar = () => {
-    clearInterval(timer);
-    timer = setInterval(() => {
-      atual = (atual + 1) % fundos.length;
-      mostrar(atual);
-    }, DURACAO);
-  };
-
-  document.documentElement.style.setProperty('--duracao-slide', `${DURACAO}ms`);
-  mostrar(0);
-  iniciar();
-
-  // Pausa quando a aba não está visível, para não gastar bateria
-  document.addEventListener('visibilitychange', () => (document.hidden ? clearInterval(timer) : iniciar()));
+  });
+  videosContinuos.forEach((v) => {
+    v.muted = true;
+    observadorVideos.observe(v);
+  });
+  // Ao voltar para a aba, retoma os que estão na tela
+  document.addEventListener('visibilitychange', () => !document.hidden && naTela.forEach(tocarVideo));
 }
 
 /* ---------- Revelação dos elementos marcados com data-revelar ---------- */
@@ -202,28 +175,6 @@ if (reduzirMovimento || !('IntersectionObserver' in window)) {
     { rootMargin: '0px 0px -10% 0px' },
   );
   alvos.forEach((el) => observador.observe(el));
-}
-
-/* ---------- Contadores animados (só números reais escritos no HTML) ---------- */
-const numeros = document.querySelectorAll('[data-contar]');
-
-if (!reduzirMovimento && 'IntersectionObserver' in window) {
-  const observadorNumeros = new IntersectionObserver((entradas) => {
-    entradas.forEach((entrada) => {
-      if (!entrada.isIntersecting) return;
-      const el = entrada.target;
-      const final = Number(el.textContent);
-      const inicio = performance.now();
-      const passo = (agora) => {
-        const p = Math.min((agora - inicio) / 900, 1);
-        el.textContent = String(Math.round(final * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) requestAnimationFrame(passo);
-      };
-      requestAnimationFrame(passo);
-      observadorNumeros.unobserve(el);
-    });
-  });
-  numeros.forEach((el) => observadorNumeros.observe(el));
 }
 
 /* ---------- Esteira de fotos: duplica a lista para o giro não ter emenda ---------- */

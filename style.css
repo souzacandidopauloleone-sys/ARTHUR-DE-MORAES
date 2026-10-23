@@ -154,26 +154,6 @@ a:hover {
   margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem);
 }
 
-.cabecalho-pagina {
-  padding-top: clamp(8rem, 6rem + 6vw, 11rem);
-  padding-bottom: clamp(2.5rem, 2rem + 2vw, 4rem);
-}
-
-.cabecalho-pagina h1 {
-  font-size: clamp(3.25rem, 1.5rem + 8vw, 7.5rem);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 0.92;
-  letter-spacing: -0.01em;
-}
-
-.cabecalho-pagina p {
-  margin-top: 1.25rem;
-  color: var(--cinza);
-  font-size: var(--t-md);
-  line-height: 1.5;
-}
-
 /* Títulos de seção: condensados e pesados, em caixa normal */
 .titulo {
   font-size: var(--t-2xl);
@@ -255,38 +235,6 @@ a:hover {
   flex: none;
 }
 
-/* ---------- Avisos de conteúdo pendente ----------
-   Só aparecem quando o site é aberto no computador (arquivo local ou localhost).
-   Publicado na internet, ficam invisíveis. */
-
-.pendente {
-  display: none;
-}
-
-.rascunho .pendente {
-  display: block;
-  width: fit-content;
-  max-width: 100%;
-  margin-block: 0.5rem 1.5rem;
-  padding: 0.35rem 0.7rem;
-  border: 1px dashed rgb(255 255 255 / 0.35);
-  color: var(--cinza);
-  font-size: var(--t-sm);
-  line-height: 1.4;
-}
-
-/* Estado vazio visível ao público */
-.vazio {
-  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
-  border: 1px dashed rgb(255 255 255 / 0.2);
-  color: var(--texto);
-  font-weight: 700;
-}
-
-.vazio p {
-  margin: 0;
-}
-
 /* ---------- Cabeçalho ---------- */
 
 .cabecalho {
@@ -349,10 +297,6 @@ a:hover {
   text-decoration: none;
 }
 
-.nav a[aria-current='page'] {
-  color: var(--branco);
-}
-
 .abrir-menu {
   min-height: 2.75rem;
   padding: 0.6rem 0.75rem;
@@ -411,11 +355,6 @@ a:hover {
     font-weight: 850;
     font-stretch: 66%;
   }
-
-  .nav a[aria-current='page'] {
-    text-decoration: underline 2px;
-    text-underline-offset: 0.18em;
-  }
 }
 
 /* Computador */
@@ -447,8 +386,7 @@ a:hover {
     transition: transform 0.3s var(--ease);
   }
 
-  .nav a:hover::after,
-  .nav a[aria-current='page']::after {
+  .nav a:hover::after {
     transform: scaleX(1);
   }
 }
@@ -551,10 +489,9 @@ a:hover {
   pointer-events: none;
 }
 
+/* O realce de cor (mais claro, contraste e cor mais vivos) já vem embutido no arquivo do vídeo */
 .abertura-video {
   object-position: 50% 45%;
-  /* Realce de cor: mais claro, contraste e cor mais vivos */
-  filter: brightness(1.05) contrast(1.12) saturate(1.3);
 }
 
 /* Celular: enquadra o lado do tatame onde o Arthur luta */
@@ -564,7 +501,7 @@ a:hover {
   }
 }
 
-/* Seção "Em ação": vídeo com controles */
+/* Seção "Em ação": vídeos contínuos, sem controles */
 .video-luta {
   margin: 0;
 }
@@ -604,117 +541,16 @@ a:hover {
   }
 }
 
-/* Fundo: fotos reais em sequência. No celular aparecem nítidas atrás do texto;
-   no computador ficam desfocadas e escuras, só para dar cor e luz ao quadro. */
-.fundo-slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 15%;
-  opacity: 0;
-  filter: brightness(0.7);
-  transition: opacity 1.6s var(--ease);
-}
-
-.fundo-slide.ativo {
-  opacity: 1;
-}
-
-@media (min-width: 60em) {
-  .fundo-slide {
-    inset: -6%;
-    width: 112%;
-    height: 112%;
-    filter: blur(32px) saturate(1.2) brightness(0.42);
-  }
-}
-
-/* Texto à esquerda, quadro de fotos à direita (computador) */
+/* Texto na coluna da esquerda (computador) */
 .abertura-grade {
   display: grid;
   align-items: end;
   gap: 3rem;
 }
 
-/* Quadro com as fotos nítidas: só no computador, onde há espaço para o tamanho real delas */
-.abertura-quadro {
-  display: none;
-}
-
 @media (min-width: 60em) {
   .abertura-grade {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-  }
-
-  .abertura-quadro {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: min(calc(100svh - 11.5rem), 54rem);
-    max-width: 44rem;
-    margin: 0 0 0 auto;
-    overflow: hidden;
-    border: 1px solid rgb(255 255 255 / 0.16);
-    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8);
-  }
-
-  .quadro-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 20%;
-    opacity: 0;
-    transition: opacity 1.2s var(--ease);
-  }
-
-  .quadro-slide.ativo {
-    opacity: 1;
-  }
-
-  /* Indicador de qual foto está na tela */
-  .quadro-progresso {
-    position: absolute;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.4rem;
-  }
-
-  .quadro-progresso span {
-    position: relative;
-    height: 2px;
-    background: rgb(255 255 255 / 0.3);
-    overflow: hidden;
-  }
-
-  .quadro-progresso span::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--branco);
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-
-  .quadro-progresso span.feito::after {
-    transform: scaleX(1);
-  }
-
-  .quadro-progresso span.atual::after {
-    animation: progresso var(--duracao-slide, 5.5s) linear forwards;
-  }
-}
-
-@keyframes progresso {
-  to {
-    transform: scaleX(1);
   }
 }
 
@@ -785,28 +621,6 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* Aproximação lenta e contínua, sem "pulo" quando a foto troca */
-  .fundo-slide,
-  .quadro-slide {
-    animation: avancar 11s ease-in-out infinite alternate;
-  }
-
-  /* Entrada do quadro: abre de baixo para cima, depois um feixe de luz atravessa a foto */
-  .abertura-quadro {
-    animation: abrir-quadro 1.2s var(--ease) 0.35s both;
-  }
-
-  .abertura-quadro::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.22) 50%, transparent 65%);
-    transform: translateX(-120%);
-    animation: feixe 1.6s var(--ease) 1.3s both;
-    pointer-events: none;
-  }
-
   /* Entrada do nome: começa largo e se fecha até a forma condensada, como uma guarda */
   .abertura-nome {
     animation: guarda 1.3s var(--ease) 0.15s both;
@@ -814,7 +628,6 @@ a:hover {
 
   .abertura-categoria,
   .abertura-texto,
-  .abertura-conteudo .pendente,
   .abertura-conteudo .botoes {
     animation: surgir 0.9s var(--ease) both;
   }
@@ -823,37 +636,12 @@ a:hover {
     animation-delay: 0.95s;
   }
 
-  .abertura-texto,
-  .abertura-conteudo .pendente {
+  .abertura-texto {
     animation-delay: 1.05s;
   }
 
   .abertura-conteudo .botoes {
     animation-delay: 1.15s;
-  }
-}
-
-@keyframes avancar {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
-@keyframes abrir-quadro {
-  from {
-    clip-path: inset(100% 0 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes feixe {
-  to {
-    transform: translateX(120%);
   }
 }
 
@@ -889,64 +677,6 @@ a:hover {
 
 /* ---------- Página inicial: demais seções ---------- */
 
-.trajetoria {
-  display: grid;
-  gap: 2rem;
-}
-
-.trajetoria .texto-grande {
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 60em) {
-  .trajetoria {
-    grid-template-columns: 5fr 7fr;
-    align-items: start;
-  }
-}
-
-/* Prévia da galeria: tamanhos desiguais, sem cartões */
-.mosaico {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
-  margin: 0 0 2.5rem;
-  padding: 0;
-  list-style: none;
-}
-
-.mosaico li:first-child {
-  grid-column: 1 / -1;
-}
-
-.mosaico img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: 50% 20%;
-}
-
-.mosaico li:first-child img {
-  aspect-ratio: 16 / 9;
-}
-
-@media (min-width: 60em) {
-  .mosaico {
-    grid-template-columns: 2fr 1fr;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-  }
-
-  .mosaico li:first-child {
-    grid-column: 1;
-    grid-row: 1 / 3;
-  }
-
-  .mosaico li:first-child img {
-    aspect-ratio: auto;
-  }
-}
-
 .chamada {
   background: var(--grafite);
 }
@@ -963,10 +693,7 @@ a:hover {
 /* ---------- O dourado marca o pódio ----------
    ouro: barra cheia e texto dourado · prata e bronze: barra fina */
 
-.ouro .conquista-colocacao,
-.ouro .resultado-rotulo,
-.medalha-ouro dd,
-.numero-ouro {
+.ouro .resultado-rotulo {
   color: var(--dourado);
 }
 
@@ -1161,14 +888,6 @@ a:hover {
   }
 }
 
-.bloco-tabela {
-  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
-}
-
-.bloco-tabela .subtitulo {
-  margin-bottom: 1.5rem;
-}
-
 /* ---------- Sobre ---------- */
 
 .bloco {
@@ -1199,8 +918,7 @@ a:hover {
   margin: 1.5rem 0 0;
 }
 
-.historia-foto img,
-.historia-foto video {
+.historia-foto img {
   display: block;
   width: 100%;
   height: auto;
@@ -1275,138 +993,6 @@ a:hover {
 @media (min-width: 60em) {
   .bloco {
     grid-template-columns: 4fr 8fr;
-  }
-}
-
-/* Linha do tempo: um fio vertical com os anos */
-.linha {
-  margin: 0 0 2.5rem;
-  padding: 0 0 0 1.5rem;
-  list-style: none;
-  border-left: 1px solid rgb(255 255 255 / 0.25);
-}
-
-.linha li {
-  position: relative;
-  padding-bottom: 2.25rem;
-}
-
-.linha li::before {
-  content: '';
-  position: absolute;
-  left: calc(-1.5rem - 4px);
-  top: 0.7rem;
-  width: 7px;
-  height: 7px;
-  background: var(--branco);
-}
-
-.linha-ano {
-  display: block;
-  color: var(--branco);
-  font-size: var(--t-xl);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-}
-
-.linha p {
-  margin: 0.25rem 0 0;
-}
-
-.linha strong {
-  color: var(--dourado);
-}
-
-.linha-eventos {
-  color: var(--cinza);
-  font-size: var(--t-sm);
-}
-
-/* ---------- Conquistas ---------- */
-
-.medalhas {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0 0 clamp(3rem, 2rem + 4vw, 6rem);
-  border-block: 1px solid var(--linha);
-}
-
-.medalha {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.25rem;
-  padding: 1.5rem 1rem 1.5rem 0;
-}
-
-.medalha + .medalha {
-  padding-left: 1rem;
-  border-left: 1px solid var(--linha);
-}
-
-.medalha dt {
-  color: var(--cinza);
-  font-size: var(--t-sm);
-}
-
-.medalha dd {
-  margin: 0;
-  color: var(--branco);
-  font-size: clamp(3rem, 2rem + 5vw, 6rem);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 0.9;
-  font-variant-numeric: tabular-nums;
-}
-
-.lista-conquistas {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.conquista {
-  display: grid;
-  gap: 1.5rem;
-  padding-block: clamp(2rem, 1.5rem + 2vw, 3.5rem);
-  border-top: 1px solid var(--linha);
-}
-
-.conquista-colocacao {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--branco);
-  font-size: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 0.95;
-}
-
-.conquista-texto p {
-  margin: 0.5rem 0 0;
-}
-
-.conquista-quando {
-  color: var(--cinza);
-}
-
-.conquista img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-@media (min-width: 60em) {
-  .conquista {
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 4rem;
-  }
-
-  /* Alterna o lado da foto para dar ritmo à leitura */
-  .conquista:nth-child(even) .conquista-texto {
-    order: 2;
   }
 }
 
@@ -1488,27 +1074,7 @@ a:hover {
   }
 }
 
-/* ---------- Galeria ---------- */
-
-.galeria {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
-  grid-auto-flow: dense;
-  gap: 2.5rem 0.75rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (min-width: 40em) {
-  .galeria .destaque-galeria {
-    grid-column: span 2;
-  }
-}
-
-.galeria figure {
-  margin: 0;
-}
+/* ---------- Galeria: botão de ampliar foto ---------- */
 
 .ampliar {
   display: block;
@@ -1521,18 +1087,12 @@ a:hover {
 }
 
 /* Retrato (4:5): a maioria das fotos de pódio é vertical. O enquadramento sobe para preservar rostos. */
-.ampliar img,
-.galeria video {
+.ampliar img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: 50% 20%;
   transition: transform 0.6s var(--ease);
-}
-
-.destaque-galeria .ampliar img,
-.destaque-galeria video {
-  aspect-ratio: 16 / 9;
 }
 
 @media (hover: hover) {
@@ -1541,20 +1101,9 @@ a:hover {
   }
 }
 
-.galeria figcaption {
-  display: grid;
-  gap: 0.2rem;
-  padding-top: 0.75rem;
-}
-
 .legenda {
   color: var(--branco);
   font-weight: 600;
-}
-
-.legenda-meta {
-  color: var(--cinza);
-  font-size: var(--t-sm);
 }
 
 .visor {
@@ -1587,35 +1136,6 @@ a:hover {
 
 /* ---------- Patrocínio ---------- */
 
-.numeros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 3rem;
-  margin: 0;
-  padding-block: 1.5rem;
-  border-block: 1px solid var(--linha);
-}
-
-.numeros div {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.numeros dt {
-  color: var(--cinza);
-  font-size: var(--t-sm);
-}
-
-.numeros dd {
-  margin: 0;
-  color: var(--branco);
-  font-size: clamp(3rem, 2rem + 4vw, 5rem);
-  font-weight: 900;
-  font-stretch: 62%;
-  line-height: 0.95;
-  font-variant-numeric: tabular-nums;
-}
-
 .apoio {
   display: grid;
   gap: 2.5rem;
@@ -1637,16 +1157,6 @@ a:hover {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
   }
-}
-
-.contrapartidas {
-  margin: 0;
-  padding-left: 1.25rem;
-  font-size: var(--t-md);
-}
-
-.contrapartidas li + li {
-  margin-top: 0.75rem;
 }
 
 .parceiros {
@@ -1677,11 +1187,6 @@ a:hover {
 
 .canais-email {
   color: var(--cinza);
-}
-
-.canais-instagram {
-  padding-top: 2rem;
-  border-top: 1px solid var(--linha);
 }
 
 /* ---------- Revelação na rolagem ----------

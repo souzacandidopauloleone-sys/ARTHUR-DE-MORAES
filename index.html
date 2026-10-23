@@ -10,7 +10,10 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#0b0b0d" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Crect x='6' y='10' width='20' height='2' fill='%23fff' opacity='.5'/%3E%3Crect x='6' y='15' width='20' height='2' fill='%23fff' opacity='.5'/%3E%3Crect x='6' y='20' width='20' height='2' fill='%23d4af37'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="style.css" />
+    <!-- style.min.css e script.min.js são gerados a partir de style.css e script.js (edite estes e gere de novo) -->
+    <link rel="stylesheet" href="style.min.css" />
+    <link rel="preload" href="fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="videos/luta-capa.webp" as="image" type="image/webp" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
@@ -25,11 +28,8 @@
 
     <script>
       document.documentElement.classList.add('js');
-      // Avisos de "pendente" aparecem só no computador (arquivo local ou localhost)
-      if (location.protocol === 'file:' || /^(localhost|127\.)/.test(location.hostname))
-        document.documentElement.classList.add('rascunho');
     </script>
-    <script src="script.js" defer></script>
+    <script src="script.min.js" defer></script>
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
@@ -62,7 +62,7 @@
     <main id="conteudo">
       <!-- ===================== ABERTURA ===================== -->
       <section class="abertura" id="inicio" aria-labelledby="nome-atleta">
-        <!-- Fundo: vídeo real de luta, sem som e em repetição (decorativo; o vídeo com som está em "Em ação") -->
+        <!-- Fundo: vídeo real de luta, sem som e em repetição (decorativo). O arquivo já vem cortado e com a cor ajustada. -->
         <div class="abertura-fundo" aria-hidden="true">
           <video autoplay muted loop playsinline preload="auto" class="hero-video abertura-video" poster="videos/luta-capa.webp">
             <source src="videos/luta.mp4" type="video/mp4" />
@@ -94,11 +94,11 @@
             <h3 class="subtitulo">Tudo começou em casa</h3>
             <!-- Fotos do Arthur com o pai: copie um <figure> por foto (imagens em img/historia/) -->
             <figure class="historia-foto">
-              <img src="img/historia/treino-com-o-pai.png" width="317" height="320" loading="lazy" alt="Arthur ainda criança, de luvas, treinando kickboxing com o pai em uma academia" />
+              <img src="img/historia/treino-com-o-pai.webp" width="317" height="320" loading="lazy" decoding="async" alt="Arthur ainda criança, de luvas, treinando kickboxing com o pai em uma academia" />
               <figcaption class="legenda">Os primeiros treinos, com o pai</figcaption>
             </figure>
             <figure class="historia-foto">
-              <img src="img/historia/primeiras-luvas.png" width="552" height="699" loading="lazy" alt="Arthur ainda criança, de luvas e regata da AUFAM, em guarda ao lado de um saco de pancada" />
+              <img src="img/historia/primeiras-luvas.webp" width="552" height="699" loading="lazy" decoding="async" alt="Arthur ainda criança, de luvas e regata da AUFAM, em guarda ao lado de um saco de pancada" />
               <figcaption class="legenda">Ainda menino, já de luvas e com a camisa da AUFAM</figcaption>
             </figure>
           </div>
@@ -151,13 +151,13 @@
         <!-- Fotos do Circuito de Boxe (imagens em img/boxe/) -->
         <div class="boxe-fotos" data-revelar>
           <div class="boxe-linha boxe-linha--deitadas">
-            <img src="img/boxe/circuito-medalhas.png" width="943" height="711" loading="lazy" alt="Arthur com duas medalhas no peito em frente ao painel do 6º Circuito de Boxe Willian Guimarães" />
-            <img src="img/boxe/circuito-com-a-familia.png" width="936" height="707" loading="lazy" alt="Arthur com as medalhas no peito, entre um homem e uma mulher, em frente ao painel do circuito" />
+            <img src="img/boxe/circuito-medalhas.webp" width="943" height="711" loading="lazy" decoding="async" alt="Arthur com duas medalhas no peito em frente ao painel do 6º Circuito de Boxe Willian Guimarães" />
+            <img src="img/boxe/circuito-com-a-familia.webp" width="936" height="707" loading="lazy" decoding="async" alt="Arthur com as medalhas no peito, entre um homem e uma mulher, em frente ao painel do circuito" />
           </div>
           <div class="boxe-linha boxe-linha--em-pe">
-            <img src="img/boxe/circuito-corpo-inteiro.png" width="537" height="708" loading="lazy" alt="Arthur de corpo inteiro, de regata e calção de luta, mostrando as medalhas diante do painel do circuito" />
-            <img src="img/boxe/circuito-pose-painel.png" width="547" height="726" loading="lazy" alt="Arthur faz pose de luta com as mãos estendidas para a câmera, com as medalhas no peito, diante do painel do circuito" />
-            <img src="img/boxe/circuito-pose.png" width="484" height="706" loading="lazy" alt="Arthur com as medalhas no peito, fazendo pose de luta com as mãos estendidas para a câmera" />
+            <img src="img/boxe/circuito-corpo-inteiro.webp" width="537" height="708" loading="lazy" decoding="async" alt="Arthur de corpo inteiro, de regata e calção de luta, mostrando as medalhas diante do painel do circuito" />
+            <img src="img/boxe/circuito-pose-painel.webp" width="547" height="726" loading="lazy" decoding="async" alt="Arthur faz pose de luta com as mãos estendidas para a câmera, com as medalhas no peito, diante do painel do circuito" />
+            <img src="img/boxe/circuito-pose.webp" width="484" height="706" loading="lazy" decoding="async" alt="Arthur com as medalhas no peito, fazendo pose de luta com as mãos estendidas para a câmera" />
           </div>
         </div>
       </section>
@@ -169,13 +169,13 @@
         </div>
         <div class="videos-lado" data-revelar>
           <figure class="video-luta">
-            <video autoplay muted loop playsinline preload="auto" data-continuo data-inicio="5" data-fim="47.8" poster="videos/luta-capa.webp" aria-label="Vídeo: Arthur de Moraes Cândido lutando no tatame em campeonato de kickboxing">
+            <video muted loop playsinline preload="none" data-continuo poster="videos/luta-capa.webp" aria-label="Vídeo: Arthur de Moraes Cândido lutando no tatame em campeonato de kickboxing">
               <source src="videos/luta.mp4" type="video/mp4" />
             </video>
             <figcaption class="legenda">Arthur no tatame, em combate de kickboxing.</figcaption>
           </figure>
           <figure class="video-luta video-luta--quadrado">
-            <video autoplay muted loop playsinline preload="auto" data-continuo aria-label="Vídeo: árbitro levanta o braço de Arthur no tatame, anunciando a vitória">
+            <video muted loop playsinline preload="none" data-continuo poster="videos/vitoria-capa.webp" aria-label="Vídeo: árbitro levanta o braço de Arthur no tatame, anunciando a vitória">
               <source src="videos/vitoria-anunciada.mp4" type="video/mp4" />
             </video>
             <figcaption class="legenda">Braço erguido: a vitória anunciada.</figcaption>
@@ -303,7 +303,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/vitoria-tatame.webp">
-                <img src="img/galeria/vitoria-tatame.webp" width="753" height="490" alt="Árbitro levanta o braço de Arthur de Moraes Cândido no tatame, anunciando a vitória" />
+                <img src="img/galeria/vitoria-tatame.webp" width="753" height="490" loading="lazy" decoding="async" alt="Árbitro levanta o braço de Arthur de Moraes Cândido no tatame, anunciando a vitória" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">Braço erguido: vitória anunciada no tatame</span></figcaption>
@@ -312,7 +312,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/tatame-medalha.webp">
-                <img src="img/galeria/tatame-medalha.webp" width="579" height="753" alt="Arthur com medalha no peito e calça de kickboxing, apontando para a câmera na área de competição do tatame" />
+                <img src="img/galeria/tatame-medalha.webp" width="579" height="753" loading="lazy" decoding="async" alt="Arthur com medalha no peito e calça de kickboxing, apontando para a câmera na área de competição do tatame" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">Medalha no peito, na área de competição</span></figcaption>
@@ -321,7 +321,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/podio-1-guarda.webp">
-                <img src="img/galeria/podio-1-guarda.webp" width="583" height="724" alt="Arthur em guarda no degrau mais alto do pódio, com medalha no peito e uniforme verde do Brasil" />
+                <img src="img/galeria/podio-1-guarda.webp" width="583" height="724" loading="lazy" decoding="async" alt="Arthur em guarda no degrau mais alto do pódio, com medalha no peito e uniforme verde do Brasil" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">No lugar mais alto do pódio</span></figcaption>
@@ -330,7 +330,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/podio-medalhas.webp">
-                <img src="img/galeria/podio-medalhas.webp" width="786" height="759" alt="Arthur sentado no degrau 1 do pódio, olhando para as medalhas de ouro e prata no peito" />
+                <img src="img/galeria/podio-medalhas.webp" width="786" height="759" loading="lazy" decoding="async" alt="Arthur sentado no degrau 1 do pódio, olhando para as medalhas de ouro e prata no peito" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">Medalhas de ouro e prata</span></figcaption>
@@ -339,7 +339,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/podio-trofeu.webp">
-                <img src="img/galeria/podio-trofeu.webp" width="483" height="641" alt="Arthur no pódio com troféu dourado, medalhas de prata e uma bandeira sobre os ombros" />
+                <img src="img/galeria/podio-trofeu.webp" width="483" height="641" loading="lazy" decoding="async" alt="Arthur no pódio com troféu dourado, medalhas de prata e uma bandeira sobre os ombros" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">Troféu e medalhas</span></figcaption>
@@ -348,7 +348,7 @@
           <li>
             <figure>
               <button type="button" class="ampliar" data-ampliar="img/galeria/podio-1-comemoracao.webp">
-                <img src="img/galeria/podio-1-comemoracao.webp" width="573" height="757" alt="Arthur aponta para a câmera do alto do pódio, com uniforme do Brasil e calça de kickboxing" />
+                <img src="img/galeria/podio-1-comemoracao.webp" width="573" height="757" loading="lazy" decoding="async" alt="Arthur aponta para a câmera do alto do pódio, com uniforme do Brasil e calça de kickboxing" />
                 <span class="sr-only">Ampliar foto</span>
               </button>
               <figcaption><span class="legenda">Comemoração no pódio</span></figcaption>
